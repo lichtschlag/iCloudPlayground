@@ -12,4 +12,9 @@
 @interface iCPFirstViewController : UIViewController
 // ===============================================================================================================
 
+@property (weak, nonatomic) IBOutlet UISwitch   *janToggle;
+@property (weak, nonatomic) IBOutlet UISwitch   *examToggle;
+@property (weak, nonatomic) IBOutlet UISwitch   *correctionToggle;
+@property (weak, nonatomic) IBOutlet UILabel    *syncLabel;
+
 @end

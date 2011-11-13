@@ -94,10 +94,8 @@
 				3FC620D61470444C0032BBB6 /* iCPAppDelegate.h */,
 				3FC620D71470444C0032BBB6 /* iCPAppDelegate.m */,
 				3FC620D91470444C0032BBB6 /* MainStoryboard_iPhone.storyboard */,
-				3FC620DF1470444C0032BBB6 /* iCPFirstViewController.h */,
-				3FC620E01470444C0032BBB6 /* iCPFirstViewController.m */,
-				3FC620E61470444C0032BBB6 /* iCPSecondViewController.h */,
-				3FC620E71470444C0032BBB6 /* iCPSecondViewController.m */,
+				3FC620F914707F3D0032BBB6 /* key-value data */,
+				3FC620FA14707F5C0032BBB6 /* document data */,
 			);
 			name = Classes;
 			path = iCloudPlayground;
@@ -126,6 +124,24 @@
 			);
 			name = Ressources;
 			path = iCloudPlayground;
+			sourceTree = "<group>";
+		};
+		3FC620F914707F3D0032BBB6 /* key-value data */ = {
+			isa = PBXGroup;
+			children = (
+				3FC620DF1470444C0032BBB6 /* iCPFirstViewController.h */,
+				3FC620E01470444C0032BBB6 /* iCPFirstViewController.m */,
+			);
+			name = "key-value data";
+			sourceTree = "<group>";
+		};
+		3FC620FA14707F5C0032BBB6 /* document data */ = {
+			isa = PBXGroup;
+			children = (
+				3FC620E61470444C0032BBB6 /* iCPSecondViewController.h */,
+				3FC620E71470444C0032BBB6 /* iCPSecondViewController.m */,
+			);
+			name = "document data";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
