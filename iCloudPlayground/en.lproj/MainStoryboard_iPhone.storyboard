@@ -20,54 +20,54 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Last synchronization date unknown" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="aA0-hV-vrj">
-                                <rect key="frame" x="30" y="370" width="260" height="21"/>
+                                <rect key="frame" x="16" y="370" width="289" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="fVV-yK-OEw">
-                                <rect key="frame" x="20" y="162" width="79" height="27"/>
+                                <rect key="frame" x="16" y="162" width="79" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <action selector="janToggleChanged:" destination="2" eventType="valueChanged" id="mBU-xG-i2d"/>
                                 </connections>
                             </switch>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Jans gives the class" lineBreakMode="tailTruncation" minimumFontSize="10" id="e6D-5h-Fmk">
-                                <rect key="frame" x="107" y="165" width="190" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Jan gives the class himself" lineBreakMode="tailTruncation" minimumFontSize="10" id="e6D-5h-Fmk">
+                                <rect key="frame" x="103" y="165" width="204" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="W6y-iG-2eH">
-                                <rect key="frame" x="20" y="203" width="79" height="27"/>
+                                <rect key="frame" x="16" y="203" width="79" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <action selector="examToggleChanged:" destination="2" eventType="valueChanged" id="Z93-MW-Pme"/>
                                 </connections>
                             </switch>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Exam questions are hard" lineBreakMode="tailTruncation" minimumFontSize="10" id="Ena-q5-yc0">
-                                <rect key="frame" x="107" y="206" width="190" height="21"/>
+                                <rect key="frame" x="103" y="206" width="190" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Assignments grades are late" lineBreakMode="tailTruncation" minimumFontSize="10" id="Coq-LH-IWY">
+                                <rect key="frame" x="103" y="248" width="216" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="Ivq-Cz-4Wb">
-                                <rect key="frame" x="20" y="245" width="79" height="27"/>
+                                <rect key="frame" x="16" y="245" width="79" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <action selector="correctionToggleChanged:" destination="2" eventType="valueChanged" id="nuj-zN-62e"/>
                                 </connections>
                             </switch>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Assignments are graded late" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="3UK-58-gaG">
-                                <rect key="frame" x="106" y="245" width="193" height="45"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -97,7 +97,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Last synchronization date unknown" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="5ZK-3Z-ttR">
-                                <rect key="frame" x="30" y="370" width="260" height="21"/>
+                                <rect key="frame" x="20" y="370" width="280" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -134,6 +134,20 @@
         <image name="first" width="16" height="16"/>
         <image name="second" width="16" height="16"/>
     </resources>
+    <classes>
+        <class className="iCPFirstViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/iCPFirstViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="correctionToggle" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="examToggle" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="janToggle" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="syncLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="iCPSecondViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/iCPSecondViewController.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

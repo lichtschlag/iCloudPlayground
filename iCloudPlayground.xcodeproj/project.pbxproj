@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3FB98D7D14714C06009A62CA /* appicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FB98D7C14714C06009A62CA /* appicon.png */; };
+		3FB98D8014714C08009A62CA /* appicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FB98D7F14714C08009A62CA /* appicon@2x.png */; };
 		3FC620C81470444C0032BBB6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC620C71470444C0032BBB6 /* UIKit.framework */; };
 		3FC620CA1470444C0032BBB6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC620C91470444C0032BBB6 /* Foundation.framework */; };
 		3FC620CC1470444C0032BBB6 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC620CB1470444C0032BBB6 /* CoreGraphics.framework */; };
@@ -23,7 +25,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3FC620C31470444C0032BBB6 /* iCloudPlayground.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iCloudPlayground.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3FB98D7C14714C06009A62CA /* appicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = appicon.png; path = ../appicon.png; sourceTree = "<group>"; };
+		3FB98D7F14714C08009A62CA /* appicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "appicon@2x.png"; path = "../appicon@2x.png"; sourceTree = "<group>"; };
+		3FC620C31470444C0032BBB6 /* iCloud Play.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iCloud Play.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FC620C71470444C0032BBB6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3FC620C91470444C0032BBB6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3FC620CB1470444C0032BBB6 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -73,7 +77,7 @@
 		3FC620C41470444C0032BBB6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3FC620C31470444C0032BBB6 /* iCloudPlayground.app */,
+				3FC620C31470444C0032BBB6 /* iCloud Play.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -117,6 +121,8 @@
 		3FC620F7147044F20032BBB6 /* Ressources */ = {
 			isa = PBXGroup;
 			children = (
+				3FB98D7F14714C08009A62CA /* appicon@2x.png */,
+				3FB98D7C14714C06009A62CA /* appicon.png */,
 				3FC620E21470444C0032BBB6 /* first.png */,
 				3FC620E41470444C0032BBB6 /* first@2x.png */,
 				3FC620E91470444C0032BBB6 /* second.png */,
@@ -147,9 +153,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		3FC620C21470444B0032BBB6 /* iCloudPlayground */ = {
+		3FC620C21470444B0032BBB6 /* iCloud Playground */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3FC620EF1470444C0032BBB6 /* Build configuration list for PBXNativeTarget "iCloudPlayground" */;
+			buildConfigurationList = 3FC620EF1470444C0032BBB6 /* Build configuration list for PBXNativeTarget "iCloud Playground" */;
 			buildPhases = (
 				3FC620BF1470444B0032BBB6 /* Sources */,
 				3FC620C01470444B0032BBB6 /* Frameworks */,
@@ -159,9 +165,9 @@
 			);
 			dependencies = (
 			);
-			name = iCloudPlayground;
+			name = "iCloud Playground";
 			productName = iCloudPlayground;
-			productReference = 3FC620C31470444C0032BBB6 /* iCloudPlayground.app */;
+			productReference = 3FC620C31470444C0032BBB6 /* iCloud Play.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -184,7 +190,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				3FC620C21470444B0032BBB6 /* iCloudPlayground */,
+				3FC620C21470444B0032BBB6 /* iCloud Playground */,
 			);
 		};
 /* End PBXProject section */
@@ -200,6 +206,8 @@
 				3FC620E51470444C0032BBB6 /* first@2x.png in Resources */,
 				3FC620EA1470444C0032BBB6 /* second.png in Resources */,
 				3FC620EC1470444C0032BBB6 /* second@2x.png in Resources */,
+				3FB98D7D14714C06009A62CA /* appicon.png in Resources */,
+				3FB98D8014714C08009A62CA /* appicon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -245,7 +253,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Leonhard Lichtschlag (6F4ZV4635Y)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -260,6 +268,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "38976230-C12C-404D-A12B-1C02FC928BDE";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -271,7 +280,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Leonhard Lichtschlag (6F4ZV4635Y)";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -280,6 +289,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "38976230-C12C-404D-A12B-1C02FC928BDE";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
@@ -294,7 +304,7 @@
 				GCC_PREFIX_HEADER = "iCloudPlayground/iCloudPlayground-Prefix.pch";
 				INFOPLIST_FILE = "iCloudPlayground/iCloudPlayground-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "iCloud Play";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -308,7 +318,7 @@
 				GCC_PREFIX_HEADER = "iCloudPlayground/iCloudPlayground-Prefix.pch";
 				INFOPLIST_FILE = "iCloudPlayground/iCloudPlayground-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "iCloud Play";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -326,7 +336,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3FC620EF1470444C0032BBB6 /* Build configuration list for PBXNativeTarget "iCloudPlayground" */ = {
+		3FC620EF1470444C0032BBB6 /* Build configuration list for PBXNativeTarget "iCloud Playground" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3FC620F01470444C0032BBB6 /* Debug */,

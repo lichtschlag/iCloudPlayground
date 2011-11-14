@@ -54,8 +54,6 @@ NSString *const kiCPCorrectionKey   = @"kiCPCorrectionKey";
 
 - (void) viewWillAppear:(BOOL)animated
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-
     [super viewWillAppear:animated];
     
     // subscribe to changes in the cloud store
@@ -101,6 +99,7 @@ NSString *const kiCPCorrectionKey   = @"kiCPCorrectionKey";
     }
 }
 
+
 // ---------------------------------------------------------------------------------------------------------------
 #pragma mark -
 #pragma mark Cloud Interaction
@@ -108,20 +107,16 @@ NSString *const kiCPCorrectionKey   = @"kiCPCorrectionKey";
 
 - (void) pullCloudData
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-
     [syncLabel setText:@"Pulling Cloud data…"];
     BOOL success = [[NSUbiquitousKeyValueStore defaultStore] synchronize];
         
     if (success)
     {
-        [syncLabel setText:[NSString stringWithFormat:@"…Sync on %@", [[NSDate date] descriptionWithLocale:[NSLocale currentLocale]]]];
+        [syncLabel setText:[NSString stringWithFormat:@"Sync on %@", [[NSDate date] descriptionWithLocale:[NSLocale currentLocale]]]];
         [self.janToggle setEnabled:YES];
         [self.examToggle setEnabled:YES];
         [self.correctionToggle setEnabled:YES];
         
-        NSLog(@"%s %@", __PRETTY_FUNCTION__, [[NSUbiquitousKeyValueStore defaultStore] dictionaryRepresentation]);
-
         // pull all keys from the store, no matter if they have changed or not.
         [self.janToggle setOn:[[NSUbiquitousKeyValueStore defaultStore] boolForKey:kiCPJanKey]];
         [self.examToggle setOn:[[NSUbiquitousKeyValueStore defaultStore] boolForKey:kiCPExamKey]];
@@ -136,8 +131,6 @@ NSString *const kiCPCorrectionKey   = @"kiCPCorrectionKey";
 
 - (void) cloudDataChanged:(NSNotification *)receivedNotification
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-
     // The user info dictionary can contain the NSUbiquitousKeyValueStoreChangedKeysKey and NSUbiquitousKeyValueStoreChangeReasonKey keys, 
     // which indicate the keys that changed and the reason they changed.
     // NSDictionary    *changedKeys   = [[receivedNotification userInfo] valueForKey:NSUbiquitousKeyValueStoreChangedKeysKey];
@@ -177,8 +170,6 @@ NSString *const kiCPCorrectionKey   = @"kiCPCorrectionKey";
 
 - (IBAction) janToggleChanged:(id)sender 
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    
     // send data to iCloud
     [[NSUbiquitousKeyValueStore defaultStore] setBool:[sender isOn] forKey:kiCPJanKey];
 }
@@ -186,8 +177,6 @@ NSString *const kiCPCorrectionKey   = @"kiCPCorrectionKey";
 
 - (IBAction) examToggleChanged:(id)sender 
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-
     // send data to iCloud
     [[NSUbiquitousKeyValueStore defaultStore] setBool:[sender isOn] forKey:kiCPExamKey];
 }
@@ -195,8 +184,6 @@ NSString *const kiCPCorrectionKey   = @"kiCPCorrectionKey";
 
 - (IBAction) correctionToggleChanged:(id)sender 
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-
     // send data to iCloud
     [[NSUbiquitousKeyValueStore defaultStore] setBool:[sender isOn] forKey:kiCPCorrectionKey];
 }
