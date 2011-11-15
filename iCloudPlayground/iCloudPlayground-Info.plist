@@ -12,6 +12,8 @@
 	<array>
 		<string>appicon.png</string>
 		<string>appicon@2x.png</string>
+		<string>icon.png</string>
+		<string>icon@2x.png</string>
 	</array>
 	<key>CFBundleIcons</key>
 	<dict>
@@ -21,6 +23,8 @@
 			<array>
 				<string>appicon.png</string>
 				<string>appicon@2x.png</string>
+				<string>icon.png</string>
+				<string>icon@2x.png</string>
 			</array>
 			<key>UIPrerenderedIcon</key>
 			<true/>
@@ -42,8 +46,12 @@
 	<string>1.0</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>UIApplicationExitsOnSuspend</key>
+	<true/>
 	<key>UIMainStoryboardFile</key>
 	<string>MainStoryboard_iPhone</string>
+	<key>UIPrerenderedIcon</key>
+	<true/>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
@@ -56,9 +64,5 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-	<key>UIApplicationExitsOnSuspend</key>
-	<true/>
-	<key>UIPrerenderedIcon</key>
-	<true/>
 </dict>
 </plist>

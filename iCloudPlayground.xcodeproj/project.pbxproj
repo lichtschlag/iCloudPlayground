@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3FB98D7D14714C06009A62CA /* appicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FB98D7C14714C06009A62CA /* appicon.png */; };
-		3FB98D8014714C08009A62CA /* appicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FB98D7F14714C08009A62CA /* appicon@2x.png */; };
+		3F041C4514732F890087BDC4 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F041C4314732F890087BDC4 /* icon.png */; };
+		3F041C4614732F890087BDC4 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F041C4414732F890087BDC4 /* icon@2x.png */; };
 		3FC620C81470444C0032BBB6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC620C71470444C0032BBB6 /* UIKit.framework */; };
 		3FC620CA1470444C0032BBB6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC620C91470444C0032BBB6 /* Foundation.framework */; };
 		3FC620CC1470444C0032BBB6 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC620CB1470444C0032BBB6 /* CoreGraphics.framework */; };
@@ -25,8 +25,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3FB98D7C14714C06009A62CA /* appicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = appicon.png; path = ../appicon.png; sourceTree = "<group>"; };
-		3FB98D7F14714C08009A62CA /* appicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "appicon@2x.png"; path = "../appicon@2x.png"; sourceTree = "<group>"; };
+		3F041C4314732F890087BDC4 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		3F041C4414732F890087BDC4 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
 		3FC620C31470444C0032BBB6 /* iCloud Play.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iCloud Play.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FC620C71470444C0032BBB6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3FC620C91470444C0032BBB6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -121,8 +121,8 @@
 		3FC620F7147044F20032BBB6 /* Ressources */ = {
 			isa = PBXGroup;
 			children = (
-				3FB98D7F14714C08009A62CA /* appicon@2x.png */,
-				3FB98D7C14714C06009A62CA /* appicon.png */,
+				3F041C4314732F890087BDC4 /* icon.png */,
+				3F041C4414732F890087BDC4 /* icon@2x.png */,
 				3FC620E21470444C0032BBB6 /* first.png */,
 				3FC620E41470444C0032BBB6 /* first@2x.png */,
 				3FC620E91470444C0032BBB6 /* second.png */,
@@ -206,8 +206,8 @@
 				3FC620E51470444C0032BBB6 /* first@2x.png in Resources */,
 				3FC620EA1470444C0032BBB6 /* second.png in Resources */,
 				3FC620EC1470444C0032BBB6 /* second@2x.png in Resources */,
-				3FB98D7D14714C06009A62CA /* appicon.png in Resources */,
-				3FB98D8014714C08009A62CA /* appicon@2x.png in Resources */,
+				3F041C4514732F890087BDC4 /* icon.png in Resources */,
+				3F041C4614732F890087BDC4 /* icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
