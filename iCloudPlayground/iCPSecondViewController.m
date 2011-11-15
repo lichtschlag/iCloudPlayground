@@ -53,10 +53,10 @@
 
 - (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) 
     {
-        return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+        // on iPhone I only allow normal vertical orientation
+        return (interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown);
     } 
     else 
     {
