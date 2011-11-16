@@ -6,12 +6,22 @@
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
 	<string>${PRODUCT_NAME}</string>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeIconFiles</key>
+			<array>
+				<string>second</string>
+				<string>second@2x</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>iCloudPlaygroundDoc</string>
+		</dict>
+	</array>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFiles</key>
 	<array>
-		<string>appicon.png</string>
-		<string>appicon@2x.png</string>
 		<string>icon.png</string>
 		<string>icon@2x.png</string>
 	</array>
@@ -21,8 +31,6 @@
 		<dict>
 			<key>CFBundleIconFiles</key>
 			<array>
-				<string>appicon.png</string>
-				<string>appicon@2x.png</string>
 				<string>icon.png</string>
 				<string>icon@2x.png</string>
 			</array>

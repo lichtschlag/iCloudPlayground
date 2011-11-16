@@ -109,10 +109,12 @@ NSString *const kiCPCorrectionKey   = @"kiCPCorrectionKey";
 {
     [syncLabel setText:@"Pulling Cloud data…"];
     BOOL success = [[NSUbiquitousKeyValueStore defaultStore] synchronize];
-        
+    
     if (success)
     {
-        [syncLabel setText:[NSString stringWithFormat:@"Sync on %@", [[NSDate date] descriptionWithLocale:[NSLocale currentLocale]]]];
+        [syncLabel setText:[NSString stringWithFormat:@"Sync on %@", [NSDateFormatter localizedStringFromDate:[NSDate date] 
+                                                                                                    dateStyle:NSDateFormatterLongStyle 
+                                                                                                    timeStyle:NSDateFormatterMediumStyle]]];
         [self.janToggle setEnabled:YES];
         [self.examToggle setEnabled:YES];
         [self.correctionToggle setEnabled:YES];
@@ -154,7 +156,9 @@ NSString *const kiCPCorrectionKey   = @"kiCPCorrectionKey";
     [self.examToggle setOn:[[NSUbiquitousKeyValueStore defaultStore] boolForKey:kiCPExamKey]];
     [self.correctionToggle setOn:[[NSUbiquitousKeyValueStore defaultStore] boolForKey:kiCPCorrectionKey]];
     
-    [syncLabel setText:[NSString stringWithFormat:@"Sync on %@", [[NSDate date] descriptionWithLocale:[NSLocale currentLocale]]]];
+    [syncLabel setText:[NSString stringWithFormat:@"Sync on %@", [NSDateFormatter localizedStringFromDate:[NSDate date] 
+                                                                                                dateStyle:NSDateFormatterLongStyle 
+                                                                                                timeStyle:NSDateFormatterMediumStyle]]];
 }
 
 

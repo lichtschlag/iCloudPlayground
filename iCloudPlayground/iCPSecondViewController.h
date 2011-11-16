@@ -12,4 +12,8 @@
 @interface iCPSecondViewController : UIViewController
 // ===============================================================================================================
 
+@property (weak, nonatomic) IBOutlet UILabel    *syncLabel;
+@property (retain) NSMetadataQuery *query;
+@property (retain) NSMutableArray *fileList;
+
 @end
