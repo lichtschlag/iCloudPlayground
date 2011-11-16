@@ -41,7 +41,6 @@
                             <switch opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="W6y-iG-2eH">
                                 <rect key="frame" x="16" y="203" width="79" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
-                                <color key="onTintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <action selector="examToggleChanged:" destination="2" eventType="valueChanged" id="Z93-MW-Pme"/>
                                 </connections>
@@ -103,7 +102,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="CJf-yN-qaa" userLabel="Header View">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="110"/>
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="84"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="This tab shows all iCloud documents associated with this application." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="4" adjustsFontSizeToFit="NO" minimumFontSize="10" id="spC-51-maB">
@@ -115,22 +114,22 @@
                                     <color key="shadowColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="iCloud avalability unknown" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="eF3-eE-RZr">
-                                    <rect key="frame" x="16" y="72" width="289" height="21"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                    <nil key="highlightedColor"/>
-                                    <color key="shadowColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
-                                    <size key="shadowOffset" width="0.0" height="1"/>
-                                </label>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
                             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                         </view>
+                        <label key="tableFooterView" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="iCloud avalability unknown" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="eF3-eE-RZr">
+                            <rect key="frame" x="0.0" y="219" width="320" height="21"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <color key="shadowColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                            <size key="shadowOffset" width="0.0" height="1"/>
+                        </label>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="iCPDocumentCellIdentifier" textLabel="eRe-JO-2mD" detailTextLabel="rZt-BJ-bKF" imageView="YRn-su-h0f" style="IBUITableViewCellStyleSubtitle" id="2oB-dW-35t">
-                                <rect key="frame" x="0.0" y="146" width="320" height="45"/>
+                                <rect key="frame" x="0.0" y="120" width="320" height="45"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="10" y="1" width="280" height="43"/>
@@ -163,7 +162,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="iCPNoDocumentsCellIdentifier" id="e9X-Ft-123">
-                                <rect key="frame" x="0.0" y="191" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="165" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="10" y="1" width="300" height="43"/>
@@ -219,7 +218,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="yes"/>
                             </textView>
                         </subviews>
-                        <color key="backgroundColor" patternImage="A94604BF-D0FB-4F66-99E9-565749D28C43" colorSpace="pattern"/>
+                        <color key="backgroundColor" patternImage="96E7C4D1-23A6-44F1-92C0-1F4EBF88B0A9" colorSpace="pattern"/>
                     </view>
                     <navigationItem key="navigationItem" title="File Contents" id="wdT-KW-OrV">
                         <barButtonItem key="backBarButtonItem" title="finish editing" id="1ev-3P-Inx"/>
@@ -264,7 +263,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="A94604BF-D0FB-4F66-99E9-565749D28C43" width="512" height="1">
+        <image name="96E7C4D1-23A6-44F1-92C0-1F4EBF88B0A9" width="512" height="1">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESViRjbGFzc1ZOU1JlcHNcTlNJbWFnZUZsYWdzVk5TU2l6

@@ -10,12 +10,13 @@
 	<array>
 		<dict>
 			<key>CFBundleTypeIconFiles</key>
-			<array>
-				<string>second</string>
-				<string>second@2x</string>
-			</array>
+			<array/>
 			<key>CFBundleTypeName</key>
 			<string>iCloudPlaygroundDoc</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>de.rwth.hci.iCloudPlaygroundDoc</string>
+			</array>
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
