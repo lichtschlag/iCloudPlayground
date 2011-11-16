@@ -91,7 +91,7 @@ NSString *const kiCPCorrectionKey   = @"kiCPCorrectionKey";
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) 
     {
         // on iPhone I only allow normal vertical orientation
-        return (interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown);
+        return (interfaceOrientation == UIInterfaceOrientationPortrait);
     }
     else 
     {
