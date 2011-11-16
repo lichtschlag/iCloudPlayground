@@ -1,5 +1,5 @@
 //
-//  iCPSecondViewController.h
+//  iCPDocumentsController.h
 //  iCloudPlayground
 //
 //  Created by Leonhard Lichtschlag on 13/Nov/11.
@@ -9,11 +9,13 @@
 #import <UIKit/UIKit.h>
 
 // ===============================================================================================================
-@interface iCPSecondViewController : UIViewController
+@interface iCPDocumentsController : UITableViewController
 // ===============================================================================================================
 
 @property (weak, nonatomic) IBOutlet UILabel    *syncLabel;
 @property (retain) NSMetadataQuery *query;
 @property (retain) NSMutableArray *fileList;
+
+- (IBAction)addDocument:(id)sender;
 
 @end
