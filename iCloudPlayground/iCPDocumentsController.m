@@ -34,13 +34,20 @@ static NSString *iCPFileNameKey     = @"iCPFileNameKey";
 static NSString *iCPFileURLKey      = @"iCPFileURLKey";
 static NSString *iCPFileStatusKey   = @"iCPFileStatusKey";
 
+static NSString *iCPFileStatusSaving        = @"created and saving to disk…";
+static NSString *iCPFileStatusUploading     = @"uploading to iCloud…";
+static NSString *iCPFileStatusRemote        = @"discovered on iCloud server";
+static NSString *iCPFileStatusDownloading   = @"downloading from iCloud…";
+static NSString *iCPFileStatusSynched       = @"in sync";
+static NSString *iCPFileStatusMergeError    = @"errors while merging";
+
 
 // ---------------------------------------------------------------------------------------------------------------
 #pragma mark -
 #pragma mark View lifecycle
 // ---------------------------------------------------------------------------------------------------------------
 
-- (id)initWithStyle:(UITableViewStyle)style
+- (id) initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
     if (self) 
@@ -116,7 +123,7 @@ static NSString *iCPFileStatusKey   = @"iCPFileStatusKey";
 
 - (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // We have only one section, containing all the files
+    // We have only one section, containing all the documents
     return 1;
 }
 
@@ -125,6 +132,20 @@ static NSString *iCPFileStatusKey   = @"iCPFileStatusKey";
 {
     // Return the number of files OR one (to show a hint that no files exist.
     return MAX(1, [self.fileList count]);
+}
+
+
+- (BOOL) tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Return NO if it is just the helper text. It cannot be deleted.
+    if ([self.fileList count] == 0)
+    {
+        return NO;
+    }
+    else
+    {
+        return YES;
+    }
 }
 
 
@@ -149,13 +170,13 @@ static NSString *iCPFileStatusKey   = @"iCPFileStatusKey";
         cell.textLabel.text = [[self.fileList objectAtIndex:indexPath.row] valueForKey:iCPFileNameKey];
         cell.detailTextLabel.text = [[self.fileList objectAtIndex:indexPath.row] valueForKey:iCPFileStatusKey];
     }
-        
+    
     return cell;
 }
 
 
 /*- 
- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+ (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Navigation logic may go here. Create and push another view controller.
     
@@ -167,28 +188,27 @@ static NSString *iCPFileStatusKey   = @"iCPFileStatusKey";
 }*/
 
 
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
 
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
- {
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
- }   
- else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }   
- }
- */
+- (void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // We only do deletion via swipe.
+    NSAssert(editingStyle == UITableViewCellEditingStyleDelete, @"Unexpected editing.");
+    // Delete the row from the data
+    NSAssert([self.fileList count] != 0, @"Deletion with no items in the model.");
+    [self removeDocument:self atIndex:indexPath.row];
+    
+    // Make a nice animation or swap to the cell with the hint text
+    if ([self.fileList count] != 0)
+    {
+        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] 
+                         withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+    else
+    {
+        [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] 
+                         withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+}
 
 
 // ---------------------------------------------------------------------------------------------------------------
@@ -198,12 +218,28 @@ static NSString *iCPFileStatusKey   = @"iCPFileStatusKey";
 
 - (IBAction) addDocument:(id)sender
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+    static int counter = 0;
+    NSString* aFileName = [NSString stringWithFormat:@"Hallo %d.doc", counter++];
+    [self.fileList addObject:[NSDictionary dictionaryWithObjectsAndKeys:aFileName,   iCPFileNameKey,
+                                                                        @"",    iCPFileURLKey,
+                                                                        iCPFileStatusSaving, iCPFileStatusKey, nil]];
 
-    [self.fileList addObject:[NSDictionary dictionaryWithObjectsAndKeys:@"Hallo.doc",   iCPFileNameKey,
-                              @"",    iCPFileURLKey,
-                              @"downloading…", iCPFileStatusKey, nil]];
-    [self.tableView reloadData];
+    if ([self.fileList count] == 1)
+    {
+        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] 
+                              withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+    else
+    {
+        [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:([self.fileList count] -1) inSection:0]] 
+                              withRowAnimation:UITableViewRowAnimationFade];
+    }
+}
+
+
+- (IBAction) removeDocument:(id)sender atIndex:(NSInteger)index;
+{
+    [self.fileList removeObjectAtIndex:index];
 }
 
 
@@ -214,7 +250,7 @@ static NSString *iCPFileStatusKey   = @"iCPFileStatusKey";
 
 - (void) checkCloudAvailability;
 {
-    [syncLabel setText:@"Checking iCloud availablity"];
+    [syncLabel setText:@"Checking iCloud availablity…"];
     NSURL *returnedURL = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil];
     
     if (returnedURL)
@@ -256,11 +292,12 @@ static NSString *iCPFileStatusKey   = @"iCPFileStatusKey";
         NSString* fileURL = [aResult valueForAttribute:NSMetadataItemURLKey];
         [self.fileList addObject:[NSDictionary dictionaryWithObjectsAndKeys:fileName,   iCPFileNameKey,
                                                                             fileURL,    iCPFileURLKey,
-                                                                            @"unknown", iCPFileStatusKey, nil]];
+                                                                            iCPFileStatusRemote, iCPFileStatusKey, nil]];
     }
     
   
-    [self.tableView reloadData];
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+
     NSLog(@"%s %@", __PRETTY_FUNCTION__, self.fileList);
 }
 
