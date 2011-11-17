@@ -7,6 +7,7 @@
 //
 
 #import "iCPDocumentsController.h"
+#import "iCPDocument.h"
 
 // =================================================================================================================
 @interface iCPDocumentsController ()
@@ -175,18 +176,14 @@ static NSString *iCPFileStatusMergeError    = @"errors while merging";
 }
 
 
-/*- 
- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    // Navigation logic may go here. Create and push another view controller.
-    
-     DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"Nib name" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-   
-}*/
-
+    if ([[segue identifier] isEqualToString:@"editDocumentSegue"]) 
+    {
+//        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+//        [[segue destinationViewController] setDocument:[self.fileList objectAtIndex:indexPath.row]];
+    }
+}
 
 
 - (void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -216,13 +213,52 @@ static NSString *iCPFileStatusMergeError    = @"errors while merging";
 #pragma mark User Interaction
 // ---------------------------------------------------------------------------------------------------------------
 
+//Note: If you want to save a new document to the application’s iCloud container directory, it is recommended that you first save it locally and then call the NSFileManager method setUbiquitous:itemAtURL:destinationURL:error: to move the document file to iCloud storage. (This call could be made in the completion handler of the saveToURL:forSaveOperation:completionHandler: method.) See “Moving Documents to and from iCloud Storage” for further information.
+//
+//  When storing documents in iCloud, place them in the Documents subdirectory whenever possible. Documents inside
+//  a Documents directory can be deleted individually by the user to free up space. However, everything outside 
+//  that directory is treated as data and must be deleted all at once.
+//
 - (IBAction) addDocument:(id)sender
 {
+    // invent a name for the new file
+    // TODO: avoid conflicts when the app runs again
     static int counter = 0;
-    NSString* aFileName = [NSString stringWithFormat:@"Hallo %d.doc", counter++];
-    [self.fileList addObject:[NSDictionary dictionaryWithObjectsAndKeys:aFileName,   iCPFileNameKey,
-                                                                        @"",    iCPFileURLKey,
-                                                                        iCPFileStatusSaving, iCPFileStatusKey, nil]];
+    NSString* aFileName = [NSString stringWithFormat:@"Note %d", counter++];
+    aFileName = [aFileName stringByAppendingPathExtension:iCPPathExtension];
+    
+    // get the URL to save the new file to
+    NSURL *folderURL = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil];
+    folderURL = [folderURL URLByAppendingPathComponent:@"Documents"];
+    NSURL *fileURL = [folderURL URLByAppendingPathComponent:aFileName];
+    
+    // initialize a document with that path
+    iCPDocument *newDocument = [[iCPDocument alloc] initWithFileURL:fileURL];
+    NSLog(@"%s %d", __PRETTY_FUNCTION__, newDocument.documentState);
+
+    // save the document immediately
+    [newDocument saveToURL:newDocument.fileURL
+          forSaveOperation:UIDocumentSaveForCreating 
+         completionHandler:^(BOOL success) 
+            {
+                if (success)
+                {
+                    //change the label
+                    [[self.fileList lastObject] setValue:iCPFileStatusUploading forKey:iCPFileStatusKey];
+                    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:
+                                                            [NSIndexPath indexPathForRow:([self.fileList count] -1) inSection:0]] 
+                                          withRowAnimation:UITableViewRowAnimationFade];
+                }
+                else
+                {
+                    NSLog(@"%s error while saving", __PRETTY_FUNCTION__);
+                }
+                
+            }];
+    
+    [self.fileList addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:aFileName,   iCPFileNameKey,
+                              @"",    iCPFileURLKey,
+                              iCPFileStatusSaving, iCPFileStatusKey, nil]];
 
     if ([self.fileList count] == 1)
     {
@@ -270,7 +306,8 @@ static NSString *iCPFileStatusMergeError    = @"errors while merging";
 {    
     self.query = [[NSMetadataQuery alloc] init];
     [query setSearchScopes:[NSArray arrayWithObjects:NSMetadataQueryUbiquitousDocumentsScope, nil]];
-    [query setPredicate:[NSPredicate predicateWithFormat:@"%K == '*.iCloudPlaygroundDoc'", NSMetadataItemFSNameKey]];
+    NSString* predicate = [NSString stringWithFormat:@"%%K like '*.%@'", iCPPathExtension];
+    [query setPredicate:[NSPredicate predicateWithFormat:predicate, NSMetadataItemFSNameKey]];
 
     // pull a list of all the documents in the cloud
     [[NSNotificationCenter defaultCenter] addObserver:self 
@@ -290,7 +327,7 @@ static NSString *iCPFileStatusMergeError    = @"errors while merging";
     {        
         NSString* fileName = [aResult valueForAttribute:NSMetadataItemFSNameKey];        
         NSString* fileURL = [aResult valueForAttribute:NSMetadataItemURLKey];
-        [self.fileList addObject:[NSDictionary dictionaryWithObjectsAndKeys:fileName,   iCPFileNameKey,
+        [self.fileList addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:fileName,   iCPFileNameKey,
                                                                             fileURL,    iCPFileURLKey,
                                                                             iCPFileStatusRemote, iCPFileStatusKey, nil]];
     }

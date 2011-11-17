@@ -22,6 +22,7 @@
 		3FC620E81470444C0032BBB6 /* iCPDocumentsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FC620E71470444C0032BBB6 /* iCPDocumentsController.m */; };
 		3FC620EA1470444C0032BBB6 /* second.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FC620E91470444C0032BBB6 /* second.png */; };
 		3FC620EC1470444C0032BBB6 /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FC620EB1470444C0032BBB6 /* second@2x.png */; };
+		3FC6B63F1474670800D3C09E /* iCPDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FC6B63E1474670800D3C09E /* iCPDocument.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +48,8 @@
 		3FC620E91470444C0032BBB6 /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
 		3FC620EB1470444C0032BBB6 /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
 		3FC620F8147045A50032BBB6 /* iCloudPlayground.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = iCloudPlayground.entitlements; sourceTree = "<group>"; };
+		3FC6B63D1474670800D3C09E /* iCPDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCPDocument.h; sourceTree = "<group>"; };
+		3FC6B63E1474670800D3C09E /* iCPDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCPDocument.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +149,8 @@
 			children = (
 				3FC620E61470444C0032BBB6 /* iCPDocumentsController.h */,
 				3FC620E71470444C0032BBB6 /* iCPDocumentsController.m */,
+				3FC6B63D1474670800D3C09E /* iCPDocument.h */,
+				3FC6B63E1474670800D3C09E /* iCPDocument.m */,
 			);
 			name = "Document Data";
 			sourceTree = "<group>";
@@ -222,6 +227,7 @@
 				3FC620D81470444C0032BBB6 /* iCPAppDelegate.m in Sources */,
 				3FC620E11470444C0032BBB6 /* iCPFirstViewController.m in Sources */,
 				3FC620E81470444C0032BBB6 /* iCPDocumentsController.m in Sources */,
+				3FC6B63F1474670800D3C09E /* iCPDocument.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

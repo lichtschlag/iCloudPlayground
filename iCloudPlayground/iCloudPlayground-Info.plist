@@ -9,13 +9,19 @@
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>iCloudPlayground</string>
+			</array>
 			<key>CFBundleTypeIconFiles</key>
-			<array/>
+			<array>
+				<string>icon@2x</string>
+			</array>
 			<key>CFBundleTypeName</key>
-			<string>iCloudPlaygroundDoc</string>
+			<string>iCloudPlayground File</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>de.rwth.hci.iCloudPlaygroundDoc</string>
+				<string>de.rwth.hci.iCloudPlayground.Document</string>
 			</array>
 		</dict>
 	</array>
@@ -72,6 +78,30 @@
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
+	</array>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.utf8-plain-text</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>iCloudPlayground File</string>
+			<key>UTTypeIdentifier</key>
+			<string>de.rwth.hci.iCloudPlayground.Document</string>
+			<key>UTTypeSize320IconFile</key>
+			<string>icon@2x</string>
+			<key>UTTypeSize64IconFile</key>
+			<string>icon</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>iCloudPlayground</string>
+				</array>
+			</dict>
+		</dict>
 	</array>
 </dict>
 </plist>
