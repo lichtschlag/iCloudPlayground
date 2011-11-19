@@ -31,16 +31,16 @@
 static NSString *iCPDocumentCellIdentifier      = @"iCPDocumentCellIdentifier";
 static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier";
 
-static NSString *iCPFileNameKey     = @"iCPFileNameKey";
-static NSString *iCPFileURLKey      = @"iCPFileURLKey";
-static NSString *iCPFileStatusKey   = @"iCPFileStatusKey";
+//static NSString *iCPFileNameKey     = @"iCPFileNameKey";
+//static NSString *iCPFileURLKey      = @"iCPFileURLKey";
+//static NSString *iCPFileStatusKey   = @"iCPFileStatusKey";
 
-static NSString *iCPFileStatusSaving        = @"created and saving to disk…";
-static NSString *iCPFileStatusUploading     = @"uploading to iCloud…";
-static NSString *iCPFileStatusRemote        = @"discovered on iCloud server";
-static NSString *iCPFileStatusDownloading   = @"downloading from iCloud…";
-static NSString *iCPFileStatusSynched       = @"in sync";
-static NSString *iCPFileStatusMergeError    = @"errors while merging";
+//static NSString *iCPFileStatusSaving        = @"created and saving to disk…";
+//static NSString *iCPFileStatusUploading     = @"uploading to iCloud…";
+//static NSString *iCPFileStatusRemote        = @"discovered on iCloud server";
+//static NSString *iCPFileStatusDownloading   = @"downloading from iCloud…";
+//static NSString *iCPFileStatusSynched       = @"in sync";
+//static NSString *iCPFileStatusMergeError    = @"errors while merging";
 
 
 // ---------------------------------------------------------------------------------------------------------------
@@ -168,8 +168,23 @@ static NSString *iCPFileStatusMergeError    = @"errors while merging";
         NSAssert(cell != nil, @"Failed to load cell from nib.") ;
         
         // Configure the cell...
-        cell.textLabel.text = [[self.fileList objectAtIndex:indexPath.row] valueForKey:iCPFileNameKey];
-        cell.detailTextLabel.text = [[self.fileList objectAtIndex:indexPath.row] valueForKey:iCPFileStatusKey];
+		iCPDocument *document = [self.fileList objectAtIndex:indexPath.row];
+        cell.textLabel.text = [document localizedName];
+		UIDocumentState docState = [document documentState];
+		NSMutableArray *docStateTextComponents = [NSMutableArray array];
+		
+		if (docState & UIDocumentStateNormal)
+			[docStateTextComponents addObject:@"Open"];
+		if (docState & UIDocumentStateClosed)
+			[docStateTextComponents addObject:@"Closed"];
+		if (docState & UIDocumentStateInConflict)
+			[docStateTextComponents addObject:@"Merge Conflict"];
+		if (docState & UIDocumentStateSavingError)
+			[docStateTextComponents addObject:@"Saving Error"];
+		if (docState & UIDocumentStateEditingDisabled)
+			[docStateTextComponents addObject:@"NoEdit"];
+						
+		cell.detailTextLabel.text = [docStateTextComponents componentsJoinedByString:@", "];        
     }
     
     return cell;
@@ -180,8 +195,13 @@ static NSString *iCPFileStatusMergeError    = @"errors while merging";
 {
     if ([[segue identifier] isEqualToString:@"editDocumentSegue"]) 
     {
-//        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+		iCPDocument* selectedDocument = [self.fileList objectAtIndex:indexPath.row];
+		BOOL canOpen = [[UIApplication sharedApplication] canOpenURL:selectedDocument.fileURL];
+		BOOL didOpen = [[UIApplication sharedApplication] openURL:selectedDocument.fileURL];
 //        [[segue destinationViewController] setDocument:[self.fileList objectAtIndex:indexPath.row]];
+		NSLog(@"%s %d %d", __PRETTY_FUNCTION__, canOpen, didOpen);
+
     }
 }
 
@@ -198,7 +218,7 @@ static NSString *iCPFileStatusMergeError    = @"errors while merging";
     if ([self.fileList count] != 0)
     {
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] 
-                         withRowAnimation:UITableViewRowAnimationAutomatic];
+                         withRowAnimation:UITableViewRowAnimationLeft];
     }
     else
     {
@@ -213,7 +233,7 @@ static NSString *iCPFileStatusMergeError    = @"errors while merging";
 #pragma mark User Interaction
 // ---------------------------------------------------------------------------------------------------------------
 
-//Note: If you want to save a new document to the application’s iCloud container directory, it is recommended that you first save it locally and then call the NSFileManager method setUbiquitous:itemAtURL:destinationURL:error: to move the document file to iCloud storage. (This call could be made in the completion handler of the saveToURL:forSaveOperation:completionHandler: method.) See “Moving Documents to and from iCloud Storage” for further information.
+// Note: If you want to save a new document to the application’s iCloud container directory, it is recommended that you first save it locally and then call the NSFileManager method setUbiquitous:itemAtURL:destinationURL:error: to move the document file to iCloud storage. (This call could be made in the completion handler of the saveToURL:forSaveOperation:completionHandler: method.) See “Moving Documents to and from iCloud Storage” for further information.
 //
 //  When storing documents in iCloud, place them in the Documents subdirectory whenever possible. Documents inside
 //  a Documents directory can be deleted individually by the user to free up space. However, everything outside 
@@ -244,10 +264,10 @@ static NSString *iCPFileStatusMergeError    = @"errors while merging";
                 if (success)
                 {
                     //change the label
-                    [[self.fileList lastObject] setValue:iCPFileStatusUploading forKey:iCPFileStatusKey];
-                    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:
-                                                            [NSIndexPath indexPathForRow:([self.fileList count] -1) inSection:0]] 
-                                          withRowAnimation:UITableViewRowAnimationFade];
+					//                    [[self.fileList lastObject] setValue:iCPFileStatusUploading forKey:iCPFileStatusKey];
+//                    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:
+//                                                            [NSIndexPath indexPathForRow:([self.fileList count] -1) inSection:0]] 
+//                                          withRowAnimation:UITableViewRowAnimationFade];
                 }
                 else
                 {
@@ -256,9 +276,10 @@ static NSString *iCPFileStatusMergeError    = @"errors while merging";
                 
             }];
     
-    [self.fileList addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:aFileName,   iCPFileNameKey,
-                              @"",    iCPFileURLKey,
-                              iCPFileStatusSaving, iCPFileStatusKey, nil]];
+//    [self.fileList addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:aFileName,   iCPFileNameKey,
+//                              @"",    iCPFileURLKey,
+//                              iCPFileStatusSaving, iCPFileStatusKey, nil]];
+	[self.fileList addObject:newDocument];
 
     if ([self.fileList count] == 1)
     {
@@ -272,9 +293,28 @@ static NSString *iCPFileStatusMergeError    = @"errors while merging";
     }
 }
 
-
+// When you delete a document from storage, your code should approximate what UIDocument does for reading and 
+// writing operations. It should perform the deletion asynchronously on a background queue, and it should use 
+// file coordination.
 - (IBAction) removeDocument:(id)sender atIndex:(NSInteger)index;
 {
+	NSURL* fileURL = [[self.fileList objectAtIndex:index] fileURL];
+	
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) 
+	{
+        NSFileCoordinator* fileCoordinator = [[NSFileCoordinator alloc] initWithFilePresenter:nil];
+        [fileCoordinator coordinateWritingItemAtURL:fileURL
+											options:NSFileCoordinatorWritingForDeleting
+											  error:nil 
+										 byAccessor:^(NSURL* writingURL)
+		 {
+			 NSFileManager* fileManager = [[NSFileManager alloc] init];
+			 [fileManager removeItemAtURL:writingURL error:nil];
+			 
+		 }];
+		
+    });
+	
     [self.fileList removeObjectAtIndex:index];
 }
 
@@ -297,8 +337,6 @@ static NSString *iCPFileStatusMergeError    = @"errors while merging";
     {
         [syncLabel setText:@"iCloud not available. ☹"];
     }
-    
-    NSLog(@"%s %@", __PRETTY_FUNCTION__, returnedURL);
 }
 
 
@@ -313,6 +351,9 @@ static NSString *iCPFileStatusMergeError    = @"errors while merging";
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(fileListReceived)
                                                  name:NSMetadataQueryDidFinishGatheringNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(fileListReceived)
+                                                 name:NSMetadataQueryDidUpdateNotification object:nil];
 
     [self.query startQuery];
 }
@@ -320,22 +361,16 @@ static NSString *iCPFileStatusMergeError    = @"errors while merging";
 
 - (void) fileListReceived 
 {
-    self.fileList = [NSMutableArray array];
-    
-    NSArray* queryResults = [self.query results];
-    for (NSMetadataItem* aResult in queryResults) 
-    {        
-        NSString* fileName = [aResult valueForAttribute:NSMetadataItemFSNameKey];        
-        NSString* fileURL = [aResult valueForAttribute:NSMetadataItemURLKey];
-        [self.fileList addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:fileName,   iCPFileNameKey,
-                                                                            fileURL,    iCPFileURLKey,
-                                                                            iCPFileStatusRemote, iCPFileStatusKey, nil]];
-    }
-    
-  
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+	self.fileList = [NSMutableArray array];
+	
+	NSArray* queryResults = [self.query results];
+	for (NSMetadataItem* aResult in queryResults)
+	{
+		NSURL* fileURL = [aResult valueForAttribute:NSMetadataItemURLKey];
+		[self.fileList addObject:[[iCPDocument alloc] initWithFileURL:fileURL]];
+	}
 
-    NSLog(@"%s %@", __PRETTY_FUNCTION__, self.fileList);
+	[self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 @end

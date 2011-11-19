@@ -8,7 +8,7 @@
 
 #import "iCPDocument.h"
 
-NSString *const iCPPathExtension = @"iCloudPlayground";
+NSString *const iCPPathExtension = @"txt";
 
 // ===============================================================================================================
 @implementation iCPDocument
@@ -26,6 +26,11 @@ NSString *const iCPPathExtension = @"iCloudPlayground";
 - (void) handleError:(NSError *)error userInteractionPermitted:(BOOL)userInteractionPermitted
 {
     NSLog(@"%s %@", __PRETTY_FUNCTION__, error);
+}
+
+- (NSString *) localizedName
+{
+	return [self.fileURL lastPathComponent];
 }
 
 @end
