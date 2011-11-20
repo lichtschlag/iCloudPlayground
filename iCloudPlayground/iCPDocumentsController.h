@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UILabel    *syncLabel;
 @property (retain) NSMetadataQuery *query;
 @property (retain) NSMutableArray *fileList;
+@property (retain) NSMutableArray *previousQueryResults;
 
 - (IBAction) addDocument:(id)sender;
 - (IBAction) removeDocument:(id)sender atIndex:(NSInteger)index;

@@ -27,6 +27,7 @@
 @synthesize syncLabel;
 @synthesize query;
 @synthesize fileList;
+@synthesize previousQueryResults;
 
 static NSString *iCPDocumentCellIdentifier      = @"iCPDocumentCellIdentifier";
 static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier";
@@ -42,8 +43,6 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
     self = [super initWithStyle:style];
     if (self) 
     {
-        // no documents known yet
-        self.fileList = [NSMutableArray array];
     }
     return self;
 }
@@ -66,7 +65,11 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+
+	// no documents known yet
+	self.fileList = [NSMutableArray array];
+	self.previousQueryResults = [NSMutableArray array];
+
     [self enumerateCloudDocuments];
 }
 
@@ -88,6 +91,10 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
     
     [self.query stopQuery];
     self.query = nil;
+	self.previousQueryResults = [NSMutableArray array];
+	self.fileList = [NSMutableArray array];
+	[self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+	
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -206,18 +213,6 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
     // Delete the row from the data
     NSAssert([self.fileList count] != 0, @"Deletion with no items in the model.");
     [self removeDocument:self atIndex:indexPath.row];
-    
-    // Make a nice animation or swap to the cell with the hint text
-    if ([self.fileList count] != 0)
-    {
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] 
-                         withRowAnimation:UITableViewRowAnimationLeft];
-    }
-    else
-    {
-        [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] 
-                         withRowAnimation:UITableViewRowAnimationAutomatic];
-    }
 }
 
 
@@ -256,34 +251,19 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
     [newDocument saveToURL:newDocument.fileURL
           forSaveOperation:UIDocumentSaveForCreating 
          completionHandler:^(BOOL success) 
-            {
-                if (success)
-                {
-                    //change the label
-					//                    [[self.fileList lastObject] setValue:iCPFileStatusUploading forKey:iCPFileStatusKey];
-//                    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:
-//                                                            [NSIndexPath indexPathForRow:([self.fileList count] -1) inSection:0]] 
-//                                          withRowAnimation:UITableViewRowAnimationFade];
-                }
-                else
-                {
-                    NSLog(@"%s error while saving", __PRETTY_FUNCTION__);
-                }
-                
-            }];
-    
-	[self.fileList addObject:newDocument];
-
-    if ([self.fileList count] == 1)
-    {
-        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] 
-                              withRowAnimation:UITableViewRowAnimationAutomatic];
-    }
-    else
-    {
-        [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:([self.fileList count] -1) inSection:0]] 
-                              withRowAnimation:UITableViewRowAnimationFade];
-    }
+	 {
+		 if (success)
+		 {
+			 // TODO: defer creating the docoument in iCloud storage
+			 // Saving implicitly opens the file. An open document will restore the its (remotely) deleted file representation.
+			 [newDocument closeWithCompletionHandler:nil];
+		 }
+		 else
+		 {
+			 NSLog(@"%s error while saving", __PRETTY_FUNCTION__);
+		 }
+		 
+	 }];
 }
 
 
@@ -304,12 +284,8 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 		 {
 			 NSFileManager* fileManager = [[NSFileManager alloc] init];
 			 [fileManager removeItemAtURL:writingURL error:nil];
-			 
-		 }];
-		
+		 }];		
     });
-	
-    [self.fileList removeObjectAtIndex:index];
 }
 
 
@@ -355,18 +331,85 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 
 - (void) fileListReceived 
 {
-	NSArray* queryResults = [self.query results];
-	
-	// TODO: avoid clearing the array
-	self.fileList = [NSMutableArray array];
-	
-	for (NSMetadataItem* aResult in queryResults)
+	// get URLs out of query results
+	NSMutableArray* queryResultURLs = [NSMutableArray array];
+	for (NSMetadataItem *aResult in [self.query results]) 
 	{
-		NSURL* fileURL = [aResult valueForAttribute:NSMetadataItemURLKey];
-		[self.fileList addObject:[[iCPDocument alloc] initWithFileURL:fileURL]];
+		[queryResultURLs addObject:[aResult valueForAttribute:NSMetadataItemURLKey]];
+	}
+	
+	// calculate diff between arrays to find which are new, which are to be removed
+	NSMutableArray* newURLs = [queryResultURLs mutableCopy];
+	NSMutableArray* removedURLs = [previousQueryResults mutableCopy];
+	[newURLs removeObjectsInArray:previousQueryResults];
+	[removedURLs removeObjectsInArray:queryResultURLs];
+
+	// remove tableview entries (file is already gone, we are just updating the view)
+	for (int i = 0; i < [self.fileList count]; ) 
+	{
+		iCPDocument *aDoc = [self.fileList objectAtIndex:i];
+		if ([removedURLs containsObject:aDoc.fileURL])
+		{
+			NSInteger aRow = [self.fileList indexOfObject:aDoc];
+			[self.fileList removeObject:aDoc];
+			
+			// Make a nice animation or swap to the cell with the hint text
+			if ([self.fileList count] != 0)
+			{
+				[self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:aRow inSection:0]]
+									  withRowAnimation:UITableViewRowAnimationLeft];
+			}
+			else
+			{
+				[self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:aRow inSection:0]]
+									  withRowAnimation:UITableViewRowAnimationLeft];
+			}
+		}
+		else
+		{
+			i++;
+		}
+	}
+	
+//	for (iCPDocument *aDoc in [self.fileList copy]) 
+//	{
+//		if ([removedURLs containsObject:aDoc.fileURL])
+//		{
+//			NSInteger aRow = [self.fileList indexOfObject:aDoc];
+//			[self.fileList removeObject:aDoc];
+//			
+//			// Make a nice animation or swap to the cell with the hint text
+//			if ([self.fileList count] != 0)
+//			{
+//				[self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:aRow inSection:0]]
+//									  withRowAnimation:UITableViewRowAnimationLeft];
+//			}
+//			else
+//			{
+//				[self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:aRow inSection:0]]
+//									  withRowAnimation:UITableViewRowAnimationLeft];
+//			}
+//		}
+//	}
+
+	// add tableview entries (file exists, but we have to create a new iCPDocument)
+	for (NSURL *aNewURL in newURLs)
+	{
+		[self.fileList addObject:[[iCPDocument alloc] initWithFileURL:aNewURL]];
+		
+		if ([self.fileList count] != 1)
+		{
+			[self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:([self.fileList count] -1) inSection:0]] 
+								  withRowAnimation:UITableViewRowAnimationLeft];
+		}
+		else
+		{
+			[self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:([self.fileList count] -1) inSection:0]] 
+								  withRowAnimation:UITableViewRowAnimationRight];
+		}
 	}
 
-	[self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+	self.previousQueryResults = queryResultURLs;
 }
 
 

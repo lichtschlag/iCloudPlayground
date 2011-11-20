@@ -16,9 +16,8 @@ NSString *const iCPPathExtension = @"txt";
 
 - (id) contentsForType:(NSString *)typeName error:(NSError **)outError
 {
-    NSLog(@"%s %@", __PRETTY_FUNCTION__, typeName);
-
-    NSString* contents = @"I am simply a text.";
+	NSLog(@"%s SAVING", __PRETTY_FUNCTION__);
+	NSString* contents = @"I am simply a text.";
     return [contents dataUsingEncoding: NSUnicodeStringEncoding];
 }
 
