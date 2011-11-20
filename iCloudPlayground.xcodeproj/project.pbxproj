@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3F041C4514732F890087BDC4 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F041C4314732F890087BDC4 /* icon.png */; };
 		3F041C4614732F890087BDC4 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F041C4414732F890087BDC4 /* icon@2x.png */; };
+		3FA2D138147919A200366762 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3FA2D137147919A200366762 /* readme.txt */; };
 		3FC620C81470444C0032BBB6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC620C71470444C0032BBB6 /* UIKit.framework */; };
 		3FC620CA1470444C0032BBB6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC620C91470444C0032BBB6 /* Foundation.framework */; };
 		3FC620CC1470444C0032BBB6 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC620CB1470444C0032BBB6 /* CoreGraphics.framework */; };
@@ -28,6 +29,7 @@
 /* Begin PBXFileReference section */
 		3F041C4314732F890087BDC4 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		3F041C4414732F890087BDC4 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
+		3FA2D137147919A200366762 /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 		3FC620C31470444C0032BBB6 /* iCloud Play.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iCloud Play.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FC620C71470444C0032BBB6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3FC620C91470444C0032BBB6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -69,6 +71,7 @@
 		3FC620B81470444B0032BBB6 = {
 			isa = PBXGroup;
 			children = (
+				3FA2D137147919A200366762 /* readme.txt */,
 				3FC620CD1470444C0032BBB6 /* Classes */,
 				3FC620CE1470444C0032BBB6 /* Supporting Files */,
 				3FC620F7147044F20032BBB6 /* Ressources */,
@@ -213,6 +216,7 @@
 				3FC620EC1470444C0032BBB6 /* second@2x.png in Resources */,
 				3F041C4514732F890087BDC4 /* icon.png in Resources */,
 				3F041C4614732F890087BDC4 /* icon@2x.png in Resources */,
+				3FA2D138147919A200366762 /* readme.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

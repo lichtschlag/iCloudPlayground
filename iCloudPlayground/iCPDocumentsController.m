@@ -31,17 +31,6 @@
 static NSString *iCPDocumentCellIdentifier      = @"iCPDocumentCellIdentifier";
 static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier";
 
-//static NSString *iCPFileNameKey     = @"iCPFileNameKey";
-//static NSString *iCPFileURLKey      = @"iCPFileURLKey";
-//static NSString *iCPFileStatusKey   = @"iCPFileStatusKey";
-
-//static NSString *iCPFileStatusSaving        = @"created and saving to disk…";
-//static NSString *iCPFileStatusUploading     = @"uploading to iCloud…";
-//static NSString *iCPFileStatusRemote        = @"discovered on iCloud server";
-//static NSString *iCPFileStatusDownloading   = @"downloading from iCloud…";
-//static NSString *iCPFileStatusSynched       = @"in sync";
-//static NSString *iCPFileStatusMergeError    = @"errors while merging";
-
 
 // ---------------------------------------------------------------------------------------------------------------
 #pragma mark -
@@ -53,7 +42,7 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
     self = [super initWithStyle:style];
     if (self) 
     {
-        // documents is an empty array
+        // no documents known yet
         self.fileList = [NSMutableArray array];
     }
     return self;
@@ -107,7 +96,7 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) 
     {
-        // on iPhone I only allow normal vertical orientation
+        // on iPhone, only allow normal vertical orientation
         return (interfaceOrientation == UIInterfaceOrientationPortrait);
     } 
     else 
@@ -131,7 +120,7 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of files OR one (to show a hint that no files exist.
+    // Return the number of files OR one (to show a hint that no files exist).
     return MAX(1, [self.fileList count]);
 }
 
@@ -154,9 +143,11 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 {
     NSString *cellIdentifier;
     UITableViewCell *cell;
+	// dequeueReusableCellWithIdentifier: will not fail, since prototypes are in the storyboard
     
     if ([self.fileList count] == 0)
     {
+		// show a hint that the list in empty
         cellIdentifier = iCPNoDocumentsCellIdentifier;
         cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
         NSAssert(cell != nil, @"Failed to load cell from nib.") ;
@@ -193,6 +184,7 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+	// this method is our chance to give the document controller some model data
     if ([[segue identifier] isEqualToString:@"editDocumentSegue"]) 
     {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
@@ -210,6 +202,7 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 {
     // We only do deletion via swipe.
     NSAssert(editingStyle == UITableViewCellEditingStyleDelete, @"Unexpected editing.");
+
     // Delete the row from the data
     NSAssert([self.fileList count] != 0, @"Deletion with no items in the model.");
     [self removeDocument:self atIndex:indexPath.row];
@@ -233,7 +226,11 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 #pragma mark User Interaction
 // ---------------------------------------------------------------------------------------------------------------
 
-// Note: If you want to save a new document to the application’s iCloud container directory, it is recommended that you first save it locally and then call the NSFileManager method setUbiquitous:itemAtURL:destinationURL:error: to move the document file to iCloud storage. (This call could be made in the completion handler of the saveToURL:forSaveOperation:completionHandler: method.) See “Moving Documents to and from iCloud Storage” for further information.
+// Note: If you want to save a new document to the application’s iCloud container directory, it is recommended 
+// that you first save it locally and then call the NSFileManager method 
+// setUbiquitous:itemAtURL:destinationURL:error: to move the document file to iCloud storage. (This call could be 
+// made in the completion handler of the saveToURL:forSaveOperation:completionHandler: method.) See “Moving 
+// Documents to and from iCloud Storage” for further information.
 //
 //  When storing documents in iCloud, place them in the Documents subdirectory whenever possible. Documents inside
 //  a Documents directory can be deleted individually by the user to free up space. However, everything outside 
@@ -242,7 +239,7 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 - (IBAction) addDocument:(id)sender
 {
     // invent a name for the new file
-    // TODO: avoid conflicts when the app runs again
+    // TODO: avoid naming conflicts when the app runs again
     static int counter = 0;
     NSString* aFileName = [NSString stringWithFormat:@"Note %d", counter++];
     aFileName = [aFileName stringByAppendingPathExtension:iCPPathExtension];
@@ -254,7 +251,6 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
     
     // initialize a document with that path
     iCPDocument *newDocument = [[iCPDocument alloc] initWithFileURL:fileURL];
-    NSLog(@"%s %d", __PRETTY_FUNCTION__, newDocument.documentState);
 
     // save the document immediately
     [newDocument saveToURL:newDocument.fileURL
@@ -276,9 +272,6 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
                 
             }];
     
-//    [self.fileList addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:aFileName,   iCPFileNameKey,
-//                              @"",    iCPFileURLKey,
-//                              iCPFileStatusSaving, iCPFileStatusKey, nil]];
 	[self.fileList addObject:newDocument];
 
     if ([self.fileList count] == 1)
@@ -292,6 +285,7 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
                               withRowAnimation:UITableViewRowAnimationFade];
     }
 }
+
 
 // When you delete a document from storage, your code should approximate what UIDocument does for reading and 
 // writing operations. It should perform the deletion asynchronously on a background queue, and it should use 
@@ -361,9 +355,11 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 
 - (void) fileListReceived 
 {
+	NSArray* queryResults = [self.query results];
+	
+	// TODO: avoid clearing the array
 	self.fileList = [NSMutableArray array];
 	
-	NSArray* queryResults = [self.query results];
 	for (NSMetadataItem* aResult in queryResults)
 	{
 		NSURL* fileURL = [aResult valueForAttribute:NSMetadataItemURLKey];
@@ -372,6 +368,7 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 
 	[self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
+
 
 @end
 
