@@ -221,11 +221,11 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 #pragma mark User Interaction
 // ---------------------------------------------------------------------------------------------------------------
 
-// Note: If you want to save a new document to the application’s iCloud container directory, it is recommended 
-// that you first save it locally and then call the NSFileManager method 
-// setUbiquitous:itemAtURL:destinationURL:error: to move the document file to iCloud storage. (This call could be 
-// made in the completion handler of the saveToURL:forSaveOperation:completionHandler: method.) See “Moving 
-// Documents to and from iCloud Storage” for further information.
+//	Note: If you want to save a new document to the application’s iCloud container directory, it is recommended 
+//	that you first save it locally and then call the NSFileManager method 
+//	setUbiquitous:itemAtURL:destinationURL:error: to move the document file to iCloud storage. (This call could be 
+//	made in the completion handler of the saveToURL:forSaveOperation:completionHandler: method.) See “Moving 
+//	Documents to and from iCloud Storage” for further information.
 //
 //  When storing documents in iCloud, place them in the Documents subdirectory whenever possible. Documents inside
 //  a Documents directory can be deleted individually by the user to free up space. However, everything outside 
@@ -234,9 +234,22 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 - (IBAction) addDocument:(id)sender
 {
     // invent a name for the new file
-    // TODO: avoid naming conflicts when the app runs again
-    static int counter = 0;
-    NSString* aFileName = [NSString stringWithFormat:@"Note %d", counter++];
+    static int counter = 2;
+	static NSString *previousDateString = @"";
+	NSString *dateString = [NSDateFormatter localizedStringFromDate:[NSDate date] 
+														  dateStyle:NSDateFormatterShortStyle 
+														  timeStyle:NSDateFormatterMediumStyle];
+	NSString* aFileName;
+	if ([dateString isEqualToString:previousDateString])
+	{
+		aFileName = [NSString stringWithFormat:@"%@ (%d)", dateString, counter++];
+	}
+	else
+	{
+		aFileName = [NSString stringWithFormat:@"%@", dateString];
+		counter = 2;
+	}
+	previousDateString = dateString;
     aFileName = [aFileName stringByAppendingPathExtension:iCPPathExtension];
     
     // get the URL to save the new file to
@@ -262,7 +275,6 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 		 {
 			 NSLog(@"%s error while saving", __PRETTY_FUNCTION__);
 		 }
-		 
 	 }];
 }
 
@@ -371,27 +383,6 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 		}
 	}
 	
-//	for (iCPDocument *aDoc in [self.fileList copy]) 
-//	{
-//		if ([removedURLs containsObject:aDoc.fileURL])
-//		{
-//			NSInteger aRow = [self.fileList indexOfObject:aDoc];
-//			[self.fileList removeObject:aDoc];
-//			
-//			// Make a nice animation or swap to the cell with the hint text
-//			if ([self.fileList count] != 0)
-//			{
-//				[self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:aRow inSection:0]]
-//									  withRowAnimation:UITableViewRowAnimationLeft];
-//			}
-//			else
-//			{
-//				[self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:aRow inSection:0]]
-//									  withRowAnimation:UITableViewRowAnimationLeft];
-//			}
-//		}
-//	}
-
 	// add tableview entries (file exists, but we have to create a new iCPDocument)
 	for (NSURL *aNewURL in newURLs)
 	{
