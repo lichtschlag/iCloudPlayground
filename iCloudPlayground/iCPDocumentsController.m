@@ -16,6 +16,7 @@
 - (void) checkCloudAvailability;
 - (void) enumerateCloudDocuments;
 - (void) fileListReceived;
+- (void) documentStateChanged:(NSNotification *)notification;
 
 @end
 
@@ -41,7 +42,7 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 - (id) initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
-    if (self) 
+    if (self)
     {
     }
     return self;
@@ -53,24 +54,38 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
     [super viewDidLoad];
     
     [self checkCloudAvailability];
+	
+	// no documents known yet
+	self.fileList = [NSMutableArray array];
+	self.previousQueryResults = [NSMutableArray array];
+	
+    [self enumerateCloudDocuments];
+	
+	// register for state changes
+	[[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(documentStateChanged:)
+                                                 name:UIDocumentStateChangedNotification
+											   object:nil];
 }
 
 
 - (void) viewDidUnload
 {    
     [super viewDidUnload];
+	
+    [self.query stopQuery];
+    self.query = nil;
+	self.previousQueryResults = [NSMutableArray array];
+	self.fileList = [NSMutableArray array];
+	[self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+	
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-
-	// no documents known yet
-	self.fileList = [NSMutableArray array];
-	self.previousQueryResults = [NSMutableArray array];
-
-    [self enumerateCloudDocuments];
 }
 
 
@@ -88,14 +103,6 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 - (void) viewDidDisappear:(BOOL)animated
 {
 	[super viewDidDisappear:animated];
-    
-    [self.query stopQuery];
-    self.query = nil;
-	self.previousQueryResults = [NSMutableArray array];
-	self.fileList = [NSMutableArray array];
-	[self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
-	
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 
@@ -157,13 +164,13 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 		// show a hint that the list in empty
         cellIdentifier = iCPNoDocumentsCellIdentifier;
         cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-        NSAssert(cell != nil, @"Failed to load cell from nib.") ;
+        NSAssert(cell != nil, @"Failed to load cell from nib.");
     }
     else
     {
         cellIdentifier = iCPDocumentCellIdentifier;
         cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-        NSAssert(cell != nil, @"Failed to load cell from nib.") ;
+        NSAssert(cell != nil, @"Failed to load cell from nib.");
         
         // Configure the cell...
 		iCPDocument *document = [self.fileList objectAtIndex:indexPath.row];
@@ -171,9 +178,9 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 		UIDocumentState docState = [document documentState];
 		NSMutableArray *docStateTextComponents = [NSMutableArray array];
 		
-		if (docState & UIDocumentStateNormal)
+		if (docState == UIDocumentStateNormal)	// all bits 0
 			[docStateTextComponents addObject:@"Open"];
-		if (docState & UIDocumentStateClosed)
+		if (docState & UIDocumentStateClosed)	// the following have one bit 1
 			[docStateTextComponents addObject:@"Closed"];
 		if (docState & UIDocumentStateInConflict)
 			[docStateTextComponents addObject:@"Merge Conflict"];
@@ -181,26 +188,29 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 			[docStateTextComponents addObject:@"Saving Error"];
 		if (docState & UIDocumentStateEditingDisabled)
 			[docStateTextComponents addObject:@"NoEdit"];
-						
-		cell.detailTextLabel.text = [docStateTextComponents componentsJoinedByString:@", "];        
-    }
-    
-    return cell;
+		
+		cell.detailTextLabel.text = [docStateTextComponents componentsJoinedByString:@", "];
+	}
+	
+	return cell;
 }
 
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
 	// this method is our chance to give the document controller some model data
-    if ([[segue identifier] isEqualToString:@"editDocumentSegue"]) 
+    if ([[segue identifier] isEqualToString:@"editDocumentSegue"])
     {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
 		iCPDocument* selectedDocument = [self.fileList objectAtIndex:indexPath.row];
-		BOOL canOpen = [[UIApplication sharedApplication] canOpenURL:selectedDocument.fileURL];
-		BOOL didOpen = [[UIApplication sharedApplication] openURL:selectedDocument.fileURL];
-//        [[segue destinationViewController] setDocument:[self.fileList objectAtIndex:indexPath.row]];
-		NSLog(@"%s %d %d", __PRETTY_FUNCTION__, canOpen, didOpen);
+		
+		[selectedDocument openWithCompletionHandler:nil];
 
+//		BOOL canOpen = [[UIApplication sharedApplication] canOpenURL:selectedDocument.fileURL];
+//		BOOL didOpen = [[UIApplication sharedApplication] openURL:selectedDocument.fileURL];
+//		NSLog(@"%s %d %d", __PRETTY_FUNCTION__, canOpen, didOpen);
+		
+//		[[segue destinationViewController] setDocument:[self.fileList objectAtIndex:indexPath.row]];
     }
 }
 
@@ -218,7 +228,7 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 
 // ---------------------------------------------------------------------------------------------------------------
 #pragma mark -
-#pragma mark User Interaction
+#pragma mark Document Handling
 // ---------------------------------------------------------------------------------------------------------------
 
 //	Note: If you want to save a new document to the application’s iCloud container directory, it is recommended 
@@ -236,8 +246,8 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
     // invent a name for the new file
     static int counter = 2;
 	static NSString *previousDateString = @"";
-	NSString *dateString = [NSDateFormatter localizedStringFromDate:[NSDate date] 
-														  dateStyle:NSDateFormatterShortStyle 
+	NSString *dateString = [NSDateFormatter localizedStringFromDate:[NSDate date]
+														  dateStyle:NSDateFormatterShortStyle
 														  timeStyle:NSDateFormatterMediumStyle];
 	NSString* aFileName;
 	if ([dateString isEqualToString:previousDateString])
@@ -262,8 +272,8 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 
     // save the document immediately
     [newDocument saveToURL:newDocument.fileURL
-          forSaveOperation:UIDocumentSaveForCreating 
-         completionHandler:^(BOOL success) 
+          forSaveOperation:UIDocumentSaveForCreating
+         completionHandler:^(BOOL success)
 	 {
 		 if (success)
 		 {
@@ -286,18 +296,28 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 {
 	NSURL* fileURL = [[self.fileList objectAtIndex:index] fileURL];
 	
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) 
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void)
 	{
         NSFileCoordinator* fileCoordinator = [[NSFileCoordinator alloc] initWithFilePresenter:nil];
         [fileCoordinator coordinateWritingItemAtURL:fileURL
 											options:NSFileCoordinatorWritingForDeleting
-											  error:nil 
+											  error:nil
 										 byAccessor:^(NSURL* writingURL)
 		 {
 			 NSFileManager* fileManager = [[NSFileManager alloc] init];
 			 [fileManager removeItemAtURL:writingURL error:nil];
-		 }];		
+		 }];
     });
+}
+
+
+- (void) documentStateChanged:(NSNotification *)notification;
+{
+	iCPDocument	*changedDocument = notification.object;
+	NSUInteger index = [self.fileList indexOfObject:changedDocument];
+	if (index != NSNotFound)
+		[self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:0]]
+							  withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 

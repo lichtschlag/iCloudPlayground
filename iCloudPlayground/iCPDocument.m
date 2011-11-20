@@ -27,9 +27,17 @@ NSString *const iCPPathExtension = @"txt";
     NSLog(@"%s %@", __PRETTY_FUNCTION__, error);
 }
 
+
 - (NSString *) localizedName
 {
 	return [self.fileURL lastPathComponent];
 }
+
+
+- (BOOL) loadFromContents:(id)contents ofType:(NSString *)typeName error:(NSError **)outError
+{
+	return YES;
+}
+
 
 @end
