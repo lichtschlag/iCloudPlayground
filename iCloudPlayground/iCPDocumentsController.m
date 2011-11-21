@@ -2,11 +2,12 @@
 //  iCPDocumentsController.m
 //  iCloudPlayground
 //
-//  Created by Leonhard Lichtschlag on 13/Nov/11.
+//  Created by Leonhard Lichtschlag (leonhard@lichtschlag.net) on 13/Nov/11.
 //  Copyright (c) 2011 Leonhard Lichtschlag. All rights reserved.
 //
 
 #import "iCPDocumentsController.h"
+#import "iCPDocumentViewController.h"
 #import "iCPDocument.h"
 
 // =================================================================================================================
@@ -83,27 +84,28 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 }
 
 
-- (void) viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
-
-
-- (void) viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-}
-
-
-- (void) viewWillDisappear:(BOOL)animated
-{
-}
-
-
-- (void) viewDidDisappear:(BOOL)animated
-{
-	[super viewDidDisappear:animated];
-}
+//- (void) viewWillAppear:(BOOL)animated
+//{
+//    [super viewWillAppear:animated];
+//}
+//
+//
+//- (void) viewDidAppear:(BOOL)animated
+//{
+//    [super viewDidAppear:animated];
+//}
+//
+//
+//- (void) viewWillDisappear:(BOOL)animated
+//{
+//	[super viewWillDisappear:animated];
+//}
+//
+//
+//- (void) viewDidDisappear:(BOOL)animated
+//{
+//	[super viewDidDisappear:animated];
+//}
 
 
 - (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -199,9 +201,9 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
 	// this method is our chance to give the document controller some model data
-    if ([[segue identifier] isEqualToString:@"editDocumentSegue"])
-    {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+	if ([[segue identifier] isEqualToString:@"editDocumentSegue"])
+	{
+		NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
 		iCPDocument* selectedDocument = [self.fileList objectAtIndex:indexPath.row];
 		
 		[selectedDocument openWithCompletionHandler:nil];
@@ -210,7 +212,7 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 //		BOOL didOpen = [[UIApplication sharedApplication] openURL:selectedDocument.fileURL];
 //		NSLog(@"%s %d %d", __PRETTY_FUNCTION__, canOpen, didOpen);
 		
-//		[[segue destinationViewController] setDocument:[self.fileList objectAtIndex:indexPath.row]];
+		[[segue destinationViewController] setDocument:[self.fileList objectAtIndex:indexPath.row]];
     }
 }
 

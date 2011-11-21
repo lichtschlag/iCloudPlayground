@@ -1,20 +1,24 @@
 //
-//  iCPDocument.h
+//  iCPDocumentViewController.h
 //  iCloudPlayground
 //
-//  Created by Leonhard Lichtschlag (leonhard@lichtschlag.net) on 16/Nov/11.
+//  Created by Leonhard Lichtschlag (leonhard@lichtschlag.net) on 20/Nov/11.
 //  Copyright (c) 2011 Leonhard Lichtschlag. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-extern NSString *const iCPPathExtension;
+@class iCPDocument;
 
 // ===============================================================================================================
-@interface iCPDocument : UIDocument
+@interface iCPDocumentViewController : UIViewController
 // ===============================================================================================================
 
-@property (retain) NSString* contents;
+@property (retain) iCPDocument *document;
+@property (weak, nonatomic) IBOutlet UITextView *textView;
+
+- (IBAction) shareButtonClicked:(id)sender;
 
 
 @end
+
