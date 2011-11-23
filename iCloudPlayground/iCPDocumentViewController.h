@@ -11,13 +11,16 @@
 @class iCPDocument;
 
 // ===============================================================================================================
-@interface iCPDocumentViewController : UIViewController
+@interface iCPDocumentViewController : UIViewController <UITextViewDelegate>
 // ===============================================================================================================
 
 @property (retain) iCPDocument *document;
 @property (weak, nonatomic) IBOutlet UITextView *textView;
+@property (weak, nonatomic) IBOutlet UIView *loadingView;
+@property (retain, nonatomic) IBOutlet UIBarButtonItem *doneButton;
 
-- (IBAction) shareButtonClicked:(id)sender;
+- (IBAction) shareButtonPressed:(id)sender;
+- (IBAction) doneButtonPressed:(id)sender;
 
 
 @end

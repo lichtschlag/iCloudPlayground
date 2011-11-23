@@ -206,13 +206,7 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 		NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
 		iCPDocument* selectedDocument = [self.fileList objectAtIndex:indexPath.row];
 		
-		[selectedDocument openWithCompletionHandler:nil];
-
-//		BOOL canOpen = [[UIApplication sharedApplication] canOpenURL:selectedDocument.fileURL];
-//		BOOL didOpen = [[UIApplication sharedApplication] openURL:selectedDocument.fileURL];
-//		NSLog(@"%s %d %d", __PRETTY_FUNCTION__, canOpen, didOpen);
-		
-		[[segue destinationViewController] setDocument:[self.fileList objectAtIndex:indexPath.row]];
+		[[segue destinationViewController] setDocument:selectedDocument];
     }
 }
 

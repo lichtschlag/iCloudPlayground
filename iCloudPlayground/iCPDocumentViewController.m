@@ -12,10 +12,12 @@
 
 // ===============================================================================================================
 @implementation iCPDocumentViewController
-@synthesize textView;
 // ===============================================================================================================
 
 @synthesize document;
+@synthesize textView;
+@synthesize loadingView;
+@synthesize doneButton;
 
 
 // ---------------------------------------------------------------------------------------------------------------
@@ -23,46 +25,58 @@
 #pragma mark - View lifecycle
 // ---------------------------------------------------------------------------------------------------------------
 
-- (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) 
-	{
-        // Custom initialization
-    }
-    return self;
-}
-
-
-- (void) didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
-}
-
-
-
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void) viewDidLoad
 {
     [super viewDidLoad];
 	
+	// visual style of the text layer
 	[self.textView.layer setCornerRadius:10.0];
 	UIColor *gray = [UIColor colorWithWhite:0.607 alpha:1.000];
 	[self.textView.layer setBorderColor:[gray CGColor]];
 	[self.textView.layer setBorderWidth:1.0];
-}
+	
+	// visual style of the loading layer
+	[self.loadingView.layer setCornerRadius:10.0];
+	
+	// hide the done button before the user starts editing
+	self.navigationItem.rightBarButtonItem = nil;
 
+	// get contents from document
+	[document openWithCompletionHandler:^(BOOL success)
+	 {
+		 if (success)
+		 {
+			 self.textView.text = document.contents;
+			 [self.loadingView removeFromSuperview];
+		 }
+		 else
+		 {
+			 NSAssert(NO, @"Failed to load document");
+		 }
+	 }];
+	NSLog(@"%s", __PRETTY_FUNCTION__);
+}
 
 
 - (void) viewDidUnload
 {
 	[self setTextView:nil];
+	[self setLoadingView:nil];
+	[self setDoneButton:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+}
+
+
+- (void) viewWillDisappear:(BOOL)animated
+{
+	// save text
+	document.contents = self.textView.text;
+	[document closeWithCompletionHandler:^(BOOL success) 
+	{
+		NSLog(@"%s CLOSED", __PRETTY_FUNCTION__);
+	}];
+	NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
 
@@ -74,12 +88,56 @@
 
 // ---------------------------------------------------------------------------------------------------------------
 #pragma mark -
+#pragma mark Editing in the text view
+// ---------------------------------------------------------------------------------------------------------------
+
+- (void) textViewDidBeginEditing:(UITextView *)textView
+{
+	// show the done button
+	self.navigationItem.rightBarButtonItem = self.doneButton;
+}
+
+
+- (IBAction) doneButtonPressed:(id)sender 
+{
+	// stop the text editing
+	[self.textView endEditing:YES];
+	[self.document updateChangeCount:UIDocumentChangeDone];
+	
+	// hide the done button
+	self.navigationItem.rightBarButtonItem = nil;
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------
+#pragma mark -
 #pragma mark Actions
 // ---------------------------------------------------------------------------------------------------------------
 
-- (IBAction) shareButtonClicked:(id)sender 
+- (IBAction) shareButtonPressed:(id)sender 
 {
-	NSLog(@"%s", __PRETTY_FUNCTION__);
+	// save text
+	document.contents = self.textView.text;
+	[document saveToURL:document.fileURL 
+	   forSaveOperation:UIDocumentSaveForOverwriting 
+	  completionHandler:^(BOOL success) 
+	 {
+		 // get url to share to
+		 NSURL *shareURL;
+		 //		 NSError *outError = nil;
+		 shareURL = [[NSFileManager defaultManager] URLForPublishingUbiquitousItemAtURL:document.fileURL 
+																		 expirationDate:nil 
+																				  error:nil];
+		 NSLog(@"%s icloud URL: %@", __PRETTY_FUNCTION__, shareURL);
+	 }];
+}
+
+
+- (IBAction) openExternally:(id)sender
+{
+	BOOL canOpen = [[UIApplication sharedApplication] canOpenURL:self.document.fileURL];
+	BOOL didOpen = [[UIApplication sharedApplication] openURL:self.document.fileURL];
+	NSLog(@"%s %d %d", __PRETTY_FUNCTION__, canOpen, didOpen);
 }
 
 
