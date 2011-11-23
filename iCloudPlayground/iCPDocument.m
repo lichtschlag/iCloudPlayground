@@ -46,8 +46,9 @@ NSString *const iCPPathExtension = @"txt";
 
 - (id) contentsForType:(NSString *)typeName error:(NSError **)outError
 {
+	NSData *data = [self.contents dataUsingEncoding: NSUTF8StringEncoding];
 	NSLog(@"%s SAVING", __PRETTY_FUNCTION__);
-    return [self.contents dataUsingEncoding: NSUnicodeStringEncoding];
+    return data;
 }
 
 
