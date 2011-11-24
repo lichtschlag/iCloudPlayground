@@ -15,11 +15,11 @@
 // ===============================================================================================================
 
 @property (retain) iCPDocument *document;
-@property (weak, nonatomic) IBOutlet UITextView *textView;
-@property (retain, nonatomic) IBOutlet UIBarButtonItem *doneButton;
-@property (weak, nonatomic) IBOutlet UIButton *openButton;
-@property (retain, nonatomic) IBOutlet UILabel *progressText;
-@property (retain, nonatomic) IBOutlet UIView *progressView;
+@property (weak, nonatomic)		IBOutlet UITextView *textView;
+@property (retain, nonatomic)	IBOutlet UIBarButtonItem *doneButton;
+@property (weak, nonatomic)		IBOutlet UIButton *openButton;
+@property (retain, nonatomic)	IBOutlet UILabel *progressText;
+@property (retain, nonatomic)	IBOutlet UIView *progressView;
 
 - (IBAction) shareButtonPressed:(id)sender;
 - (IBAction) doneButtonPressed:(id)sender;

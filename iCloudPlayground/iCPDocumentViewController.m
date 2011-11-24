@@ -11,6 +11,17 @@
 #include <QuartzCore/CALayer.h>
 #include <Twitter/TWTweetComposeViewController.h>
 
+
+// ===============================================================================================================
+@interface iCPDocumentViewController ()
+// ===============================================================================================================
+
+- (void) showProgressScreenWithLabel:(NSString *)label;
+- (void) hideProgressScreen;
+
+@end
+
+
 // ===============================================================================================================
 @implementation iCPDocumentViewController
 // ===============================================================================================================
@@ -38,8 +49,7 @@
 	[self.textView.layer setBorderColor:[gray CGColor]];
 	[self.textView.layer setBorderWidth:1.0];
 	
-	// visual style of the loading layer
-	[self.progressView.layer setCornerRadius:10.0];
+	[self showProgressScreenWithLabel:@"Loading document…"];
 	
 	// hide the done button before the user starts editing
 	self.navigationItem.rightBarButtonItem = nil;
@@ -50,7 +60,7 @@
 		 if (success)
 		 {
 			 self.textView.text = document.contents;
-			 [self.progressView removeFromSuperview];
+			 [self hideProgressScreen];
 		 }
 		 else
 		 {
@@ -118,6 +128,11 @@
 
 - (IBAction) shareButtonPressed:(id)sender 
 {
+	// display progess indicator
+	[self showProgressScreenWithLabel:@"Preparing sharing…"];
+//	self.progressText.text = 
+//	[self.view addSubview:self.progressView];
+	
 	// save text
 	self.document.contents = self.textView.text;
 	[self.document saveToURL:self.document.fileURL 
@@ -127,6 +142,10 @@
 		 // let's make it with twitter...
 		 if (![TWTweetComposeViewController canSendTweet])
 		 {
+			 // remove progress indicator
+			 [self hideProgressScreen];
+
+			 // ups
 			 [[[UIAlertView alloc] initWithTitle:@"Cannot share file"
 										 message:@"It seems that twitter in not configured."
 										delegate:nil
@@ -135,12 +154,6 @@
 		 }
 		 else
 		 {
-			 // display progess indicator
-			 self.progressText.text = @"Preparing sharing…";
-			 [self.view addSubview:self.progressView];
-			 NSLog(@"%s %@, %@", __PRETTY_FUNCTION__, self.progressText, self.progressView);
-
-			 
 			 // get url to share to
 			 NSURL *shareURL;
 			 //		 NSError *outError = nil;
@@ -148,7 +161,7 @@
 																			 expirationDate:nil 
 																					  error:nil];
 			 // remove progress indicator
-			 [self.progressView removeFromSuperview];
+			 [self hideProgressScreen];
 			 
 			 // Show the tweet ui
 			 TWTweetComposeViewController* tweetController = [[TWTweetComposeViewController alloc] init];
@@ -168,6 +181,9 @@
 	   forSaveOperation:UIDocumentSaveForOverwriting 
 	  completionHandler:^(BOOL success) 
 	 {
+		 
+//		 dispatch_async(dispatch_get_main_queue(), ^{});
+
 //		 // copy file to local cache
 //		 NSString *documentsDirectoryPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory,
 //																				 NSUserDomainMask, YES) objectAtIndex:0];
@@ -193,16 +209,11 @@
 														animated:YES];
 		 if (!didOpen)
 		 {
-			 NSString *title = [NSString stringWithFormat:@"Cannot open file in other apps"];
-			 NSString *alertMessage = [NSString stringWithFormat:@"Unfortunately, there is no app installed that can handle this kind of file."];
-			 NSString *ok = [NSString stringWithFormat:@"Ok"];
-			 
-			 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-															 message:alertMessage
-															delegate:nil 
-												   cancelButtonTitle:ok
-												   otherButtonTitles:nil];
-			[alert show];
+			 [[[UIAlertView alloc] initWithTitle:@"Cannot open file in other apps"
+										 message:@"Unfortunately, there is no app installed that can handle this kind of file."
+										delegate:nil 
+							   cancelButtonTitle:@"Ok"
+							   otherButtonTitles:nil] show];
 		 }
 		 
 //		 [[NSFileManager defaultManager] removeItemAtURL:cacheURL error:nil];
@@ -225,6 +236,29 @@
 - (void) documentInteractionController: (UIDocumentInteractionController *) controller didEndSendingToApplication: (NSString *) application
 {
 	NSLog(@"%s %@", __PRETTY_FUNCTION__, application);
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------
+#pragma mark -
+#pragma mark Progress helper
+// ---------------------------------------------------------------------------------------------------------------
+
+- (void) showProgressScreenWithLabel:(NSString *)label
+{
+	// visual style of the loading layer
+	[self.progressView.layer setCornerRadius:10.0];
+
+	// display progess indicator
+	self.progressText.text = label;
+	[self.view addSubview:self.progressView];
+}
+
+
+- (void) hideProgressScreen
+{
+	// remove progress indicator
+	[self.progressView removeFromSuperview];
 }
 
 
