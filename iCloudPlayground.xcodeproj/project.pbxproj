@@ -10,6 +10,7 @@
 		3F041C4514732F890087BDC4 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F041C4314732F890087BDC4 /* icon.png */; };
 		3F041C4614732F890087BDC4 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F041C4414732F890087BDC4 /* icon@2x.png */; };
 		3F2938401479B53C00FD5505 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F29383F1479B53C00FD5505 /* QuartzCore.framework */; };
+		3F4DE1E0147DB531003E9825 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F4DE1DF147DB531003E9825 /* Twitter.framework */; };
 		3FA2D138147919A200366762 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3FA2D137147919A200366762 /* readme.txt */; };
 		3FA2D14614798F5F00366762 /* iCPDocumentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FA2D14514798F5F00366762 /* iCPDocumentViewController.m */; };
 		3FC620C81470444C0032BBB6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC620C71470444C0032BBB6 /* UIKit.framework */; };
@@ -32,6 +33,7 @@
 		3F041C4314732F890087BDC4 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		3F041C4414732F890087BDC4 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
 		3F29383F1479B53C00FD5505 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		3F4DE1DF147DB531003E9825 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		3FA2D137147919A200366762 /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; path = readme.txt; sourceTree = "<group>"; };
 		3FA2D14414798F5F00366762 /* iCPDocumentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = iCPDocumentViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		3FA2D14514798F5F00366762 /* iCPDocumentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = iCPDocumentViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -64,6 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F4DE1E0147DB531003E9825 /* Twitter.framework in Frameworks */,
 				3F2938401479B53C00FD5505 /* QuartzCore.framework in Frameworks */,
 				3FC620C81470444C0032BBB6 /* UIKit.framework in Frameworks */,
 				3FC620CA1470444C0032BBB6 /* Foundation.framework in Frameworks */,
@@ -97,6 +100,7 @@
 		3FC620C61470444C0032BBB6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3F4DE1DF147DB531003E9825 /* Twitter.framework */,
 				3F29383F1479B53C00FD5505 /* QuartzCore.framework */,
 				3FC620C71470444C0032BBB6 /* UIKit.framework */,
 				3FC620C91470444C0032BBB6 /* Foundation.framework */,

@@ -276,7 +276,9 @@
                     </navigationItem>
                     <connections>
                         <outlet property="doneButton" destination="9ud-RY-PRc" id="Qb5-Pw-va0"/>
-                        <outlet property="loadingView" destination="x2R-V2-Dyk" id="AoS-p6-ziw"/>
+                        <outlet property="openButton" destination="cvY-8D-ahS" id="b6T-3g-21Y"/>
+                        <outlet property="progressText" destination="htR-nX-qfg" id="wHs-jj-ENh"/>
+                        <outlet property="progressView" destination="x2R-V2-Dyk" id="7Td-Es-olE"/>
                         <outlet property="textView" destination="swm-wI-wAi" id="YRH-lp-0wT"/>
                     </connections>
                 </viewController>
