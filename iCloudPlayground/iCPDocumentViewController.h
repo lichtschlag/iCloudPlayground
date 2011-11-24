@@ -11,7 +11,7 @@
 @class iCPDocument;
 
 // ===============================================================================================================
-@interface iCPDocumentViewController : UIViewController <UITextViewDelegate, UIDocumentInteractionControllerDelegate>
+@interface iCPDocumentViewController : UIViewController <UITextViewDelegate>
 // ===============================================================================================================
 
 @property (retain) iCPDocument *document;
@@ -20,6 +20,7 @@
 @property (weak, nonatomic)		IBOutlet UIButton *openButton;
 @property (retain, nonatomic)	IBOutlet UILabel *progressText;
 @property (retain, nonatomic)	IBOutlet UIView *progressView;
+@property (retain) UIDocumentInteractionController *docController;
 
 - (IBAction) shareButtonPressed:(id)sender;
 - (IBAction) doneButtonPressed:(id)sender;

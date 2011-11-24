@@ -32,10 +32,12 @@
 @synthesize doneButton;
 @synthesize openButton;
 @synthesize progressText;
+@synthesize docController;
+
 
 // ---------------------------------------------------------------------------------------------------------------
 #pragma mark -
-#pragma mark - View lifecycle
+#pragma mark View lifecycle
 // ---------------------------------------------------------------------------------------------------------------
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -64,10 +66,13 @@
 		 }
 		 else
 		 {
-			 NSAssert(NO, @"Failed to load document");
+			 [[[UIAlertView alloc] initWithTitle:@"Cannot open document"
+										 message:@"Something went wrong. It's not your fault."
+										delegate:nil
+							   cancelButtonTitle:@"Ok"
+							   otherButtonTitles:nil] show];
 		 }
 	 }];
-	NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
 
@@ -75,7 +80,11 @@
 {
 	[self setTextView:nil];
 	[self setProgressView:nil];
+	[self setProgressText:nil];
 	[self setDoneButton:nil];
+	[self setOpenButton:nil];
+	[self setDocController:nil];
+	
     [super viewDidUnload];
 }
 
@@ -88,7 +97,6 @@
 	{
 		NSLog(@"%s CLOSED", __PRETTY_FUNCTION__);
 	}];
-	NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
 
@@ -130,8 +138,6 @@
 {
 	// display progess indicator
 	[self showProgressScreenWithLabel:@"Preparing sharing…"];
-//	self.progressText.text = 
-//	[self.view addSubview:self.progressView];
 	
 	// save text
 	self.document.contents = self.textView.text;
@@ -178,34 +184,14 @@
 {
 	self.document.contents = self.textView.text;
 	[self.document saveToURL:self.document.fileURL 
-	   forSaveOperation:UIDocumentSaveForOverwriting 
-	  completionHandler:^(BOOL success) 
+			forSaveOperation:UIDocumentSaveForOverwriting 
+		   completionHandler:^(BOOL success) 
 	 {
-		 
-//		 dispatch_async(dispatch_get_main_queue(), ^{});
-
-//		 // copy file to local cache
-//		 NSString *documentsDirectoryPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory,
-//																				 NSUserDomainMask, YES) objectAtIndex:0];
-//		 NSURL *cacheURL = [[NSURL fileURLWithPath:documentsDirectoryPath] URLByAppendingPathComponent:self.document.localizedName];
-//		 
-//		 NSError *outError = nil;
-//		 if (![[NSFileManager defaultManager] copyItemAtURL:self.document.fileURL 
-//													  toURL:cacheURL 
-//													  error:&outError])
-//		 {
-//			 NSLog(@"%s %@", __PRETTY_FUNCTION__, outError);
-//			 return;
-//		 }
-
-		 
 		 // bring up dialog from doc interaction controller
-//		 UIDocumentInteractionController* docController = [UIDocumentInteractionController interactionControllerWithURL:cacheURL];
-		 UIDocumentInteractionController* docController = [UIDocumentInteractionController interactionControllerWithURL:self.document.fileURL];
-		 docController.delegate = self;
+		 self.docController = [UIDocumentInteractionController interactionControllerWithURL:self.document.fileURL];
 		 
 		 BOOL didOpen = [docController presentOpenInMenuFromRect:CGRectZero
-														  inView:self.view.window.rootViewController.view
+														  inView:self.openButton
 														animated:YES];
 		 if (!didOpen)
 		 {
@@ -215,33 +201,13 @@
 							   cancelButtonTitle:@"Ok"
 							   otherButtonTitles:nil] show];
 		 }
-		 
-//		 [[NSFileManager defaultManager] removeItemAtURL:cacheURL error:nil];
 	 }];
-}
-
-
-- (void) documentInteractionController: (UIDocumentInteractionController *) controller willBeginSendingToApplication: (NSString *) application
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, application);
-}
-
-
-- (void) documentInteractionControllerDidDismissOpenInMenu: (UIDocumentInteractionController *) controller
-{
-	NSLog(@"%s", __PRETTY_FUNCTION__);
-}
-
-
-- (void) documentInteractionController: (UIDocumentInteractionController *) controller didEndSendingToApplication: (NSString *) application
-{
-	NSLog(@"%s %@", __PRETTY_FUNCTION__, application);
 }
 
 
 // ---------------------------------------------------------------------------------------------------------------
 #pragma mark -
-#pragma mark Progress helper
+#pragma mark Progress helpers
 // ---------------------------------------------------------------------------------------------------------------
 
 - (void) showProgressScreenWithLabel:(NSString *)label
