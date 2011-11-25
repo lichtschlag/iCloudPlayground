@@ -2,6 +2,9 @@
 // iCloudPlayground
 // ------------------------- 
 
+Created by Leonhard Lichtschlag (leonhard@lichtschlag.net) on 13/Nov/11.
+Copyright (c) 2011 Leonhard Lichtschlag. All rights reserved.
+
 iCloudPlayground is a simple app that tests iCloud APIs. 
 
 To test this app you need to be either in the RWTH Aachen University team, or have access to another development team. If so, 

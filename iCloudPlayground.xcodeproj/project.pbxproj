@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		3F041C4514732F890087BDC4 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F041C4314732F890087BDC4 /* icon.png */; };
 		3F041C4614732F890087BDC4 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F041C4414732F890087BDC4 /* icon@2x.png */; };
+		3F2938401479B53C00FD5505 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F29383F1479B53C00FD5505 /* QuartzCore.framework */; };
+		3F4DE1E0147DB531003E9825 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F4DE1DF147DB531003E9825 /* Twitter.framework */; };
+		3FA2D138147919A200366762 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3FA2D137147919A200366762 /* readme.txt */; };
+		3FA2D14614798F5F00366762 /* iCPDocumentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FA2D14514798F5F00366762 /* iCPDocumentViewController.m */; };
 		3FC620C81470444C0032BBB6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC620C71470444C0032BBB6 /* UIKit.framework */; };
 		3FC620CA1470444C0032BBB6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC620C91470444C0032BBB6 /* Foundation.framework */; };
 		3FC620CC1470444C0032BBB6 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC620CB1470444C0032BBB6 /* CoreGraphics.framework */; };
@@ -22,31 +26,39 @@
 		3FC620E81470444C0032BBB6 /* iCPDocumentsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FC620E71470444C0032BBB6 /* iCPDocumentsController.m */; };
 		3FC620EA1470444C0032BBB6 /* second.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FC620E91470444C0032BBB6 /* second.png */; };
 		3FC620EC1470444C0032BBB6 /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FC620EB1470444C0032BBB6 /* second@2x.png */; };
+		3FC6B63F1474670800D3C09E /* iCPDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FC6B63E1474670800D3C09E /* iCPDocument.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3F041C4314732F890087BDC4 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		3F041C4414732F890087BDC4 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
+		3F29383F1479B53C00FD5505 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		3F4DE1DF147DB531003E9825 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
+		3FA2D137147919A200366762 /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; path = readme.txt; sourceTree = "<group>"; };
+		3FA2D14414798F5F00366762 /* iCPDocumentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = iCPDocumentViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		3FA2D14514798F5F00366762 /* iCPDocumentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = iCPDocumentViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		3FC620C31470444C0032BBB6 /* iCloud Play.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iCloud Play.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FC620C71470444C0032BBB6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3FC620C91470444C0032BBB6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3FC620CB1470444C0032BBB6 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		3FC620CF1470444C0032BBB6 /* iCloudPlayground-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "iCloudPlayground-Info.plist"; sourceTree = "<group>"; };
 		3FC620D11470444C0032BBB6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		3FC620D31470444C0032BBB6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		3FC620D31470444C0032BBB6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = main.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		3FC620D51470444C0032BBB6 /* iCloudPlayground-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iCloudPlayground-Prefix.pch"; sourceTree = "<group>"; };
-		3FC620D61470444C0032BBB6 /* iCPAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = iCPAppDelegate.h; sourceTree = "<group>"; };
-		3FC620D71470444C0032BBB6 /* iCPAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iCPAppDelegate.m; sourceTree = "<group>"; };
+		3FC620D61470444C0032BBB6 /* iCPAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = iCPAppDelegate.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		3FC620D71470444C0032BBB6 /* iCPAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = iCPAppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		3FC620DA1470444C0032BBB6 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
-		3FC620DF1470444C0032BBB6 /* iCPFirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = iCPFirstViewController.h; sourceTree = "<group>"; };
-		3FC620E01470444C0032BBB6 /* iCPFirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iCPFirstViewController.m; sourceTree = "<group>"; };
+		3FC620DF1470444C0032BBB6 /* iCPFirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = iCPFirstViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		3FC620E01470444C0032BBB6 /* iCPFirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = iCPFirstViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		3FC620E21470444C0032BBB6 /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
 		3FC620E41470444C0032BBB6 /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
-		3FC620E61470444C0032BBB6 /* iCPDocumentsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = iCPDocumentsController.h; sourceTree = "<group>"; };
-		3FC620E71470444C0032BBB6 /* iCPDocumentsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iCPDocumentsController.m; sourceTree = "<group>"; };
+		3FC620E61470444C0032BBB6 /* iCPDocumentsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = iCPDocumentsController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		3FC620E71470444C0032BBB6 /* iCPDocumentsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = iCPDocumentsController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		3FC620E91470444C0032BBB6 /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
 		3FC620EB1470444C0032BBB6 /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
 		3FC620F8147045A50032BBB6 /* iCloudPlayground.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = iCloudPlayground.entitlements; sourceTree = "<group>"; };
+		3FC6B63D1474670800D3C09E /* iCPDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = iCPDocument.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		3FC6B63E1474670800D3C09E /* iCPDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = iCPDocument.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +66,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F4DE1E0147DB531003E9825 /* Twitter.framework in Frameworks */,
+				3F2938401479B53C00FD5505 /* QuartzCore.framework in Frameworks */,
 				3FC620C81470444C0032BBB6 /* UIKit.framework in Frameworks */,
 				3FC620CA1470444C0032BBB6 /* Foundation.framework in Frameworks */,
 				3FC620CC1470444C0032BBB6 /* CoreGraphics.framework in Frameworks */,
@@ -66,6 +80,7 @@
 		3FC620B81470444B0032BBB6 = {
 			isa = PBXGroup;
 			children = (
+				3FA2D137147919A200366762 /* readme.txt */,
 				3FC620CD1470444C0032BBB6 /* Classes */,
 				3FC620CE1470444C0032BBB6 /* Supporting Files */,
 				3FC620F7147044F20032BBB6 /* Ressources */,
@@ -85,6 +100,8 @@
 		3FC620C61470444C0032BBB6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3F4DE1DF147DB531003E9825 /* Twitter.framework */,
+				3F29383F1479B53C00FD5505 /* QuartzCore.framework */,
 				3FC620C71470444C0032BBB6 /* UIKit.framework */,
 				3FC620C91470444C0032BBB6 /* Foundation.framework */,
 				3FC620CB1470444C0032BBB6 /* CoreGraphics.framework */,
@@ -146,6 +163,10 @@
 			children = (
 				3FC620E61470444C0032BBB6 /* iCPDocumentsController.h */,
 				3FC620E71470444C0032BBB6 /* iCPDocumentsController.m */,
+				3FA2D14414798F5F00366762 /* iCPDocumentViewController.h */,
+				3FA2D14514798F5F00366762 /* iCPDocumentViewController.m */,
+				3FC6B63D1474670800D3C09E /* iCPDocument.h */,
+				3FC6B63E1474670800D3C09E /* iCPDocument.m */,
 			);
 			name = "Document Data";
 			sourceTree = "<group>";
@@ -208,6 +229,7 @@
 				3FC620EC1470444C0032BBB6 /* second@2x.png in Resources */,
 				3F041C4514732F890087BDC4 /* icon.png in Resources */,
 				3F041C4614732F890087BDC4 /* icon@2x.png in Resources */,
+				3FA2D138147919A200366762 /* readme.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,6 +244,8 @@
 				3FC620D81470444C0032BBB6 /* iCPAppDelegate.m in Sources */,
 				3FC620E11470444C0032BBB6 /* iCPFirstViewController.m in Sources */,
 				3FC620E81470444C0032BBB6 /* iCPDocumentsController.m in Sources */,
+				3FC6B63F1474670800D3C09E /* iCPDocument.m in Sources */,
+				3FA2D14614798F5F00366762 /* iCPDocumentViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
