@@ -54,7 +54,7 @@
                                 <color key="shadowColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <size key="shadowOffset" width="0.0" height="1"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Assignments grades are late" lineBreakMode="tailTruncation" minimumFontSize="10" id="Coq-LH-IWY">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Assignment grades are late" lineBreakMode="tailTruncation" minimumFontSize="10" id="Coq-LH-IWY">
                                 <rect key="frame" x="103" y="248" width="216" height="21"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -323,6 +323,37 @@
         <image name="first" width="16" height="16"/>
         <image name="second" width="16" height="16"/>
     </resources>
+    <classes>
+        <class className="iCPDocumentViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/iCPDocumentViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="doneButtonPressed:"/>
+                <relationship kind="action" name="shareButtonPressed:"/>
+                <relationship kind="outlet" name="doneButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="openButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="progressText" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="progressView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="textView" candidateClass="UITextView"/>
+            </relationships>
+        </class>
+        <class className="iCPDocumentsController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/iCPDocumentsController.h"/>
+            <relationships>
+                <relationship kind="action" name="addDocument:"/>
+                <relationship kind="action" name="removeDocument:atIndex:"/>
+                <relationship kind="outlet" name="syncLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="iCPFirstViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/iCPFirstViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="correctionToggle" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="examToggle" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="janToggle" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="syncLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
