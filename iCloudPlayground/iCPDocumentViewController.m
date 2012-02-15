@@ -91,8 +91,14 @@
 
 - (void) viewWillDisappear:(BOOL)animated
 {
-	// save text
-	self.document.contents = self.textView.text;
+	// figure out if changes were made
+	if (![self.textView.text isEqualToString:self.document.contents])
+	{
+		// save text
+		self.document.contents = self.textView.text;
+		[self.document updateChangeCount:UIDocumentChangeDone];
+	}
+	
 	[self.document closeWithCompletionHandler:^(BOOL success) 
 	{
 		NSLog(@"%s CLOSED", __PRETTY_FUNCTION__);
