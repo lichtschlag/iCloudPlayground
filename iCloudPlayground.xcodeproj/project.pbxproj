@@ -11,7 +11,6 @@
 		3F041C4614732F890087BDC4 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F041C4414732F890087BDC4 /* icon@2x.png */; };
 		3F2938401479B53C00FD5505 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F29383F1479B53C00FD5505 /* QuartzCore.framework */; };
 		3F4DE1E0147DB531003E9825 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F4DE1DF147DB531003E9825 /* Twitter.framework */; };
-		3FA2D138147919A200366762 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3FA2D137147919A200366762 /* readme.txt */; };
 		3FA2D14614798F5F00366762 /* iCPDocumentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FA2D14514798F5F00366762 /* iCPDocumentViewController.m */; };
 		3FC620C81470444C0032BBB6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC620C71470444C0032BBB6 /* UIKit.framework */; };
 		3FC620CA1470444C0032BBB6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC620C91470444C0032BBB6 /* Foundation.framework */; };
@@ -27,6 +26,7 @@
 		3FC620EA1470444C0032BBB6 /* second.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FC620E91470444C0032BBB6 /* second.png */; };
 		3FC620EC1470444C0032BBB6 /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FC620EB1470444C0032BBB6 /* second@2x.png */; };
 		3FC6B63F1474670800D3C09E /* iCPDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FC6B63E1474670800D3C09E /* iCPDocument.m */; };
+		3FCB551914EBE041000164B1 /* readme.markdown in Resources */ = {isa = PBXBuildFile; fileRef = 3FCB551814EBE041000164B1 /* readme.markdown */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,7 +34,6 @@
 		3F041C4414732F890087BDC4 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
 		3F29383F1479B53C00FD5505 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		3F4DE1DF147DB531003E9825 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
-		3FA2D137147919A200366762 /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; path = readme.txt; sourceTree = "<group>"; };
 		3FA2D14414798F5F00366762 /* iCPDocumentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = iCPDocumentViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		3FA2D14514798F5F00366762 /* iCPDocumentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = iCPDocumentViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		3FC620C31470444C0032BBB6 /* iCloud Play.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iCloud Play.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -59,6 +58,7 @@
 		3FC620F8147045A50032BBB6 /* iCloudPlayground.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = iCloudPlayground.entitlements; sourceTree = "<group>"; };
 		3FC6B63D1474670800D3C09E /* iCPDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = iCPDocument.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		3FC6B63E1474670800D3C09E /* iCPDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = iCPDocument.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		3FCB551814EBE041000164B1 /* readme.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.markdown; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,7 +80,7 @@
 		3FC620B81470444B0032BBB6 = {
 			isa = PBXGroup;
 			children = (
-				3FA2D137147919A200366762 /* readme.txt */,
+				3FCB551814EBE041000164B1 /* readme.markdown */,
 				3FC620CD1470444C0032BBB6 /* Classes */,
 				3FC620CE1470444C0032BBB6 /* Supporting Files */,
 				3FC620F7147044F20032BBB6 /* Ressources */,
@@ -229,7 +229,7 @@
 				3FC620EC1470444C0032BBB6 /* second@2x.png in Resources */,
 				3F041C4514732F890087BDC4 /* icon.png in Resources */,
 				3F041C4614732F890087BDC4 /* icon@2x.png in Resources */,
-				3FA2D138147919A200366762 /* readme.txt in Resources */,
+				3FCB551914EBE041000164B1 /* readme.markdown in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
