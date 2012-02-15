@@ -21,10 +21,12 @@
 @property (retain, nonatomic)	IBOutlet UILabel *progressText;
 @property (retain, nonatomic)	IBOutlet UIView *progressView;
 @property (retain) UIDocumentInteractionController *docController;
+@property (weak, nonatomic)		IBOutlet UILabel *statusText;
 
 - (IBAction) shareButtonPressed:(id)sender;
 - (IBAction) doneButtonPressed:(id)sender;
 
+- (void) documentStateChanged:(NSNotification *)notification;
 
 @end
 

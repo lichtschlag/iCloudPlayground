@@ -17,7 +17,6 @@
 - (void) checkCloudAvailability;
 - (void) enumerateCloudDocuments;
 - (void) fileListReceived;
-- (void) documentStateChanged:(NSNotification *)notification;
 
 @end
 
@@ -51,12 +50,6 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 	self.previousQueryResults = [NSMutableArray array];
 	
     [self enumerateCloudDocuments];
-	
-	// register for state changes
-	[[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(documentStateChanged:)
-                                                 name:UIDocumentStateChangedNotification
-											   object:nil];
 }
 
 
@@ -69,8 +62,6 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 	self.previousQueryResults = [NSMutableArray array];
 	self.fileList = [NSMutableArray array];
 	[self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
-	
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 
@@ -141,23 +132,20 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
         NSAssert(cell != nil, @"Failed to load cell from nib.");
         
         // Configure the cell...
-		iCPDocument *document = [self.fileList objectAtIndex:indexPath.row];
-        cell.textLabel.text = [document localizedName];
-		UIDocumentState docState = [document documentState];
-		NSMutableArray *docStateTextComponents = [NSMutableArray array];
+		NSFileVersion *file = [self.fileList objectAtIndex:indexPath.row];
+        cell.textLabel.text = [file localizedName];
 		
-		if (docState == UIDocumentStateNormal)	// all bits 0
-			[docStateTextComponents addObject:@"Open"];
-		if (docState & UIDocumentStateClosed)	// the following have one bit 1
-			[docStateTextComponents addObject:@"Closed"];
-		if (docState & UIDocumentStateInConflict)
-			[docStateTextComponents addObject:@"Merge Conflict"];
-		if (docState & UIDocumentStateSavingError)
-			[docStateTextComponents addObject:@"Saving Error"];
-		if (docState & UIDocumentStateEditingDisabled)
-			[docStateTextComponents addObject:@"NoEdit"];
-		
-		cell.detailTextLabel.text = [docStateTextComponents componentsJoinedByString:@", "];
+		// TODO: this may not fire for iCloud merge conflicts. Consider changing to NSMetadataItem
+		if (file.isConflict)
+		{
+			cell.detailTextLabel.text = @"Conflict while merging";
+			cell.detailTextLabel.textColor = [UIColor redColor];
+		}
+		else
+		{
+			cell.detailTextLabel.text = @"No conflicts";
+			cell.detailTextLabel.textColor = [UIColor lightGrayColor];
+		}
 	}
 	
 	return cell;
@@ -170,7 +158,8 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 	if ([[segue identifier] isEqualToString:@"editDocumentSegue"])
 	{
 		NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-		iCPDocument* selectedDocument = [self.fileList objectAtIndex:indexPath.row];
+		NSFileVersion *selectedFile = [self.fileList objectAtIndex:indexPath.row];
+		iCPDocument *selectedDocument = [[iCPDocument alloc] initWithFileURL:selectedFile.URL];
 		
 		[[segue destinationViewController] setDocument:selectedDocument];
     }
@@ -184,6 +173,7 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 
     // Delete the row from the data
     NSAssert([self.fileList count] != 0, @"Deletion with no items in the model.");
+	
     [self removeDocument:self atIndex:indexPath.row];
 }
 
@@ -239,7 +229,7 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 	 {
 		 if (success)
 		 {
-			 // TODO: defer creating the docoument in iCloud storage
+			 // TODO: defer creating the document in iCloud storage
 			 // Saving implicitly opens the file. An open document will restore the its (remotely) deleted file representation.
 			 [newDocument closeWithCompletionHandler:nil];
 		 }
@@ -250,13 +240,14 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 	 }];
 }
 
-
 // When you delete a document from storage, your code should approximate what UIDocument does for reading and 
 // writing operations. It should perform the deletion asynchronously on a background queue, and it should use 
 // file coordination.
-- (IBAction) removeDocument:(id)sender atIndex:(NSInteger)index;
+- (void) removeDocument:(id)sender atIndex:(NSInteger)index;
 {
-	NSURL* fileURL = [[self.fileList objectAtIndex:index] fileURL];
+	NSLog(@"%s", __PRETTY_FUNCTION__);
+
+	NSURL* fileURL = [[self.fileList objectAtIndex:index] URL];
 	
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void)
 	{
@@ -270,16 +261,6 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 			 [fileManager removeItemAtURL:writingURL error:nil];
 		 }];
     });
-}
-
-
-- (void) documentStateChanged:(NSNotification *)notification;
-{
-	iCPDocument	*changedDocument = notification.object;
-	NSUInteger index = [self.fileList indexOfObject:changedDocument];
-	if (index != NSNotFound)
-		[self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:0]]
-							  withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 
@@ -341,21 +322,19 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 	// remove tableview entries (file is already gone, we are just updating the view)
 	for (int i = 0; i < [self.fileList count]; ) 
 	{
-		iCPDocument *aDoc = [self.fileList objectAtIndex:i];
-		if ([removedURLs containsObject:aDoc.fileURL])
+		NSFileVersion *aFile = [self.fileList objectAtIndex:i];
+		if ([removedURLs containsObject:aFile.URL])
 		{
-			NSInteger aRow = [self.fileList indexOfObject:aDoc];
-			[self.fileList removeObject:aDoc];
-			
+			[self.fileList removeObjectAtIndex:i];			
 			// Make a nice animation or swap to the cell with the hint text
 			if ([self.fileList count] != 0)
 			{
-				[self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:aRow inSection:0]]
+				[self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:i inSection:0]]
 									  withRowAnimation:UITableViewRowAnimationLeft];
 			}
 			else
 			{
-				[self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:aRow inSection:0]]
+				[self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:i inSection:0]]
 									  withRowAnimation:UITableViewRowAnimationLeft];
 			}
 		}
@@ -365,10 +344,10 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 		}
 	}
 	
-	// add tableview entries (file exists, but we have to create a new iCPDocument)
+	// add tableview entries (file exists, but we have to create a new NSFileVersion to track it)
 	for (NSURL *aNewURL in newURLs)
 	{
-		[self.fileList addObject:[[iCPDocument alloc] initWithFileURL:aNewURL]];
+		[self.fileList addObject:[NSFileVersion currentVersionOfItemAtURL:aNewURL]];
 		
 		if ([self.fileList count] != 1)
 		{
