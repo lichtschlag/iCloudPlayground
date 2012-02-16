@@ -19,7 +19,6 @@ another development team. If so,
 iCloud will not work in the simulator, so you need to test on a real device. And for testing out 
 merge conflicts, you probably need a second device set to the same iCloud user ID.
 
-
 ------------------------- 
 
 iCloud allows two kinds of syncing:
