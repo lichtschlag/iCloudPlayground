@@ -322,9 +322,64 @@
                     <view key="view" contentMode="scaleToFill" id="pAI-LQ-Ceu">
                         <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="▼ In the last merge we chose this version ▼" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="4" minimumFontSize="10" id="DAH-gi-zVQ">
+                                <rect key="frame" x="10" y="2" width="300" height="27"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                                <size key="shadowOffset" width="0.0" height="1"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="▲ And this is the discarded version ▲" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="4" minimumFontSize="10" id="3Ek-zJ-pWS">
+                                <rect key="frame" x="10" y="337" width="300" height="27"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                                <size key="shadowOffset" width="0.0" height="1"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Tap the version to keep" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="4" minimumFontSize="10" id="WzU-xh-hpK">
+                                <rect key="frame" x="65" y="170" width="190" height="23"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <color key="textColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                                <size key="shadowOffset" width="0.0" height="1"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" id="PJg-Pz-ndc">
+                                <rect key="frame" x="10" y="33" width="300" height="120"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </string>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="yes"/>
+                                <connections>
+                                    <outlet property="delegate" destination="eOx-b5-mfv" id="ZHm-gi-RoB"/>
+                                </connections>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" id="Y7S-Qs-zTf">
+                                <rect key="frame" x="10" y="216" width="300" height="120"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </string>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="yes"/>
+                                <connections>
+                                    <outlet property="delegate" destination="eOx-b5-mfv" id="L1T-Bo-oAw"/>
+                                </connections>
+                            </textView>
+                        </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" title="Conflict Resolution" id="LIa-mQ-uKh"/>
+                    <connections>
+                        <outlet property="alternateTextField" destination="Y7S-Qs-zTf" id="gzr-jb-aLW"/>
+                        <outlet property="textField" destination="PJg-Pz-ndc" id="hqz-NE-zJg"/>
+                    </connections>
                 </viewController>
             </objects>
             <point key="canvasLocation" x="1920" y="439"/>
@@ -402,6 +457,10 @@
         </class>
         <class className="iCPMergeController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/iCPMergeController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="chosenText" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="discardedText" candidateClass="UITextView"/>
+            </relationships>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

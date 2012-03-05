@@ -15,6 +15,8 @@
 // ===============================================================================================================
 
 @property (retain) iCPDocument *document;
+@property (weak, nonatomic) IBOutlet UITextView *textField;
+@property (weak, nonatomic) IBOutlet UITextView *alternateTextField;
 
 
 @end
