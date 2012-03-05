@@ -34,6 +34,7 @@
 @synthesize progressText;
 @synthesize docController;
 @synthesize statusText;
+@synthesize mergeButton;
 
 
 // ---------------------------------------------------------------------------------------------------------------
@@ -57,6 +58,9 @@
 	// hide the done button before the user starts editing
 	self.navigationItem.rightBarButtonItem = nil;
 
+	// hide the merge button until we are sure we need it
+	[self.mergeButton removeFromSuperview];
+	
 	// get contents from document
 	[self.document openWithCompletionHandler:^(BOOL success)
 	 {
@@ -80,6 +84,12 @@
                                              selector:@selector(documentStateChanged:)
                                                  name:UIDocumentStateChangedNotification
 											   object:nil];
+	
+	// Change the title of the back button to us
+	self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Document"
+																			 style:UIBarButtonItemStyleBordered
+																			target:nil
+																			action:nil];
 }
 
 
@@ -92,6 +102,7 @@
 	[self setOpenButton:nil];
 	[self setDocController:nil];
 	[self setStatusText:nil];
+	[self setMergeButton:nil];
 	
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
@@ -108,12 +119,16 @@
 		self.document.contents = self.textView.text;
 		[self.document updateChangeCount:UIDocumentChangeDone];
 	}
-	
-	[self.document closeWithCompletionHandler:^(BOOL success) 
+
+	// only close the document if we return to the list view
+	if ([self isMovingFromParentViewController])
 	{
-		if (!success)
-			NSLog(@"%s Error while closing document as a result of moving off-screen.", __PRETTY_FUNCTION__);
-	}];
+		[self.document closeWithCompletionHandler:^(BOOL success) 
+		 {
+			 if (!success)
+				 NSLog(@"%s Error while closing document as a result of moving off-screen.", __PRETTY_FUNCTION__);
+		 }];
+	}		
 }
 
 
@@ -240,9 +255,26 @@
 	
 	self.statusText.text = [NSString stringWithFormat:@"Document state: %@",
 							[docStateTextComponents componentsJoinedByString:@", "]];
+	
+	if (docState & UIDocumentStateInConflict)
+	{
+		[self.view addSubview:self.mergeButton];
+	}
+	else
+	{
+		[self.mergeButton removeFromSuperview];
+	}
 }
 
 
+- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+	// the merge is performed on our document
+	if ([[segue identifier] isEqualToString:@"mergeDocumentSegue"])
+	{
+		[[segue destinationViewController] setDocument:self.document];
+    }
+}
 
 // ---------------------------------------------------------------------------------------------------------------
 #pragma mark -
