@@ -111,7 +111,8 @@
 	
 	[self.document closeWithCompletionHandler:^(BOOL success) 
 	{
-		NSLog(@"%s CLOSED", __PRETTY_FUNCTION__);
+		if (!success)
+			NSLog(@"%s Error while closing document as a result of moving off-screen.", __PRETTY_FUNCTION__);
 	}];
 }
 
@@ -228,7 +229,7 @@
 	
 	if (docState == UIDocumentStateNormal)	// all bits 0
 		[docStateTextComponents addObject:@"Open"];
-	if (docState & UIDocumentStateClosed)	// the following have one bit = 1
+	if (docState & UIDocumentStateClosed)		// the following have one bit = 1
 		[docStateTextComponents addObject:@"Closed"];
 	if (docState & UIDocumentStateInConflict)
 		[docStateTextComponents addObject:@"Merge Conflict"];
