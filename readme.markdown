@@ -61,16 +61,12 @@ iCloud allows two kinds of syncing:
 		* Or the user might clear the whole contents of the iCloud container of this app identifier, 
 		  deleting documents and all other helper files.
 
-------------------------- 
-
-Known bugs:
-
-	* Closing a UIDocument a second time leads to a crash. 
 
 ------------------------- 
 
 Possible expansions
 
+	* Display download status in file list.
 	* With a core data backed document, iCloud can supposedly do more sophisticated merging.
 	* One could display a merge UI to the user to pick one of the two possible files.
 

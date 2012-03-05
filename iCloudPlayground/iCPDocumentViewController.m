@@ -33,6 +33,7 @@
 @synthesize openButton;
 @synthesize progressText;
 @synthesize docController;
+@synthesize statusText;
 
 
 // ---------------------------------------------------------------------------------------------------------------
@@ -73,6 +74,12 @@
 							   otherButtonTitles:nil] show];
 		 }
 	 }];
+	
+	// register for state changes
+	[[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(documentStateChanged:)
+                                                 name:UIDocumentStateChangedNotification
+											   object:nil];
 }
 
 
@@ -84,18 +91,28 @@
 	[self setDoneButton:nil];
 	[self setOpenButton:nil];
 	[self setDocController:nil];
+	[self setStatusText:nil];
 	
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
     [super viewDidUnload];
 }
 
 
 - (void) viewWillDisappear:(BOOL)animated
 {
-	// save text
-	self.document.contents = self.textView.text;
+	// figure out if changes were made
+	if (![self.textView.text isEqualToString:self.document.contents])
+	{
+		// save text
+		self.document.contents = self.textView.text;
+		[self.document updateChangeCount:UIDocumentChangeDone];
+	}
+	
 	[self.document closeWithCompletionHandler:^(BOOL success) 
 	{
-		NSLog(@"%s CLOSED", __PRETTY_FUNCTION__);
+		if (!success)
+			NSLog(@"%s Error while closing document as a result of moving off-screen.", __PRETTY_FUNCTION__);
 	}];
 }
 
@@ -203,6 +220,28 @@
 		 }
 	 }];
 }
+
+
+- (void) documentStateChanged:(NSNotification *)notification;
+{
+	UIDocumentState docState = [document documentState];
+	NSMutableArray *docStateTextComponents = [NSMutableArray array];
+	
+	if (docState == UIDocumentStateNormal)	// all bits 0
+		[docStateTextComponents addObject:@"Open"];
+	if (docState & UIDocumentStateClosed)		// the following have one bit = 1
+		[docStateTextComponents addObject:@"Closed"];
+	if (docState & UIDocumentStateInConflict)
+		[docStateTextComponents addObject:@"Merge Conflict"];
+	if (docState & UIDocumentStateSavingError)
+		[docStateTextComponents addObject:@"Saving Error"];
+	if (docState & UIDocumentStateEditingDisabled)
+		[docStateTextComponents addObject:@"NoEdit"];
+	
+	self.statusText.text = [NSString stringWithFormat:@"Document state: %@",
+							[docStateTextComponents componentsJoinedByString:@", "]];
+}
+
 
 
 // ---------------------------------------------------------------------------------------------------------------

@@ -197,7 +197,7 @@
 		3FC620BA1470444B0032BBB6 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0440;
 			};
 			buildConfigurationList = 3FC620BD1470444B0032BBB6 /* Build configuration list for PBXProject "iCloudPlayground" */;
 			compatibilityVersion = "Xcode 3.2";

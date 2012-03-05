@@ -18,6 +18,6 @@
 @property (retain) NSMutableArray *previousQueryResults;
 
 - (IBAction) addDocument:(id)sender;
-- (IBAction) removeDocument:(id)sender atIndex:(NSInteger)index;
+- (void) removeDocument:(id)sender atIndex:(NSInteger)index;
 
 @end
