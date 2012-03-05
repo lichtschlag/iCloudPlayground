@@ -66,14 +66,6 @@ iCloud allows two kinds of syncing:
 
 ------------------------- 
 
-Bugs
-
-* 	The use NSFileVersion does not report on merge conflicts. As a result, it fails to report merge
-	conflicts in the list view. Merge conflicts ARE displayed correctly once the file is open.
-	
-
-------------------------- 
-
 Possible expansions
 
 * 	Display download status in file list.

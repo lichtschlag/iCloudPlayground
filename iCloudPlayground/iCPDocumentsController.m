@@ -135,8 +135,11 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 		NSFileVersion *file = [self.fileList objectAtIndex:indexPath.row];
         cell.textLabel.text = [file localizedName];
 		
-		// TODO: this may not fire for iCloud merge conflicts. Consider changing to NSMetadataItem
-		if (file.isConflict)
+		// The "conflict" property of NSFileVersion is false for the selected merged version, which is somehat unintuitively
+		// It is only true if the merge is still unresolved (we should never notie this) or our object is the discarded one.
+		// Instead we use the following to detect merge conflicts:
+		NSArray *mergeTest = [NSFileVersion otherVersionsOfItemAtURL:file.URL];
+		if ([mergeTest count] != 0)
 		{
 			cell.detailTextLabel.text = @"Conflict while merging";
 			cell.detailTextLabel.textColor = [UIColor redColor];
