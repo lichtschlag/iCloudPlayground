@@ -79,6 +79,13 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 }
 
 
+- (void) viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
+	
+	// TODO: we might have to reload the cell merge status, if we return from a document view
+}
+
 // ---------------------------------------------------------------------------------------------------------------
 #pragma mark -
 #pragma mark Table view data source and delegate

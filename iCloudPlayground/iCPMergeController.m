@@ -102,14 +102,17 @@
 
 - (void) viewDidUnload
 {
+	// UI
 	[self setCurrentContents:nil];
 	[self setAlternateContents:nil];
+	[self setCurrentVersionInfo:nil];
+	[self setAlternateVersionInfo:nil];
+
+	// Version Handling
 	[self setCurrentDocument:nil];
 	[self setAlternateDocument:nil];
 	[self setAlternateVersion:nil];
 	
-	[self setCurrentVersionInfo:nil];
-	[self setAlternateVersionInfo:nil];
 	[super viewDidUnload];
 }
 
@@ -127,44 +130,46 @@
 
 - (IBAction) chooseAlternateVersion:(id) sender
 {
-	// overwrite the current version
+	NSFileVersion *currentVersion		= [NSFileVersion currentVersionOfItemAtURL:self.currentDocument.fileURL];
+	
+	// overwrite the current version and let our document reload
 	[self.alternateVersion replaceItemAtURL:self.currentDocument.fileURL options:0 error:nil];
 	[self.currentDocument revertToContentsOfURL:self.currentDocument.fileURL completionHandler:nil];
 	
-	// remove the alternate version we presented to the user
-	BOOL didDelete = [NSFileVersion removeOtherVersionsOfItemAtURL:self.currentDocument.fileURL error:nil];
-//	BOOL didDelete = [self.alternateFile removeAndReturnError:nil];
-	if (!didDelete)
-		NSLog(@"%s could not remove", __PRETTY_FUNCTION__);
+	// remove the current version
+	BOOL didDelete = [currentVersion removeAndReturnError:nil];
+	// TODO: this assertion fires...., do log errer
+	NSAssert(didDelete, @"Could not remove Version");
 
-	// do we need this
-	NSArray* conflictVersions = [NSFileVersion unresolvedConflictVersionsOfItemAtURL:self.currentDocument.fileURL];
-	for (NSFileVersion* fileVersion in conflictVersions) 
-	{
-		NSLog(@"%s", __PRETTY_FUNCTION__);
-		//		fileVersion.resolved = YES;
-	}
-	
-	// end merge
+	// and mark the (now discarded) current version as resolved
+	// TODO: logs a "tried and failed error", break here and check resolved status of both versions.
+	NSLog(@"%s \"current\" is resolved:%d, \"alternate\" is resolved:%d", __PRETTY_FUNCTION__, 
+		  currentVersion.isResolved, alternateVersion.isResolved);
+
+	currentVersion.resolved = YES;
+	//	self.alternateVersion.resolved = YES;
+
+	// release pointers
+	self.currentDocument		= nil;
+	self.currentVersionInfo	= nil;
+
+	// end merge dialog
 	[self dismissViewControllerAnimated:YES completion:nil];
-	
-	// TODO: either in view did disappear or here, release pointers
 }
 
 
 - (IBAction) chooseCurrentVersion:(id) sender
 {
-	NSArray* conflictVersions = [NSFileVersion unresolvedConflictVersionsOfItemAtURL:self.currentDocument.fileURL];
-	[[conflictVersions lastObject] removeAndReturnError:nil];
-	//	[NSFileVersion removeOtherVersionsOfItemAtURL:self.document.fileURL error:nil];
+	// remove the alternate version (but only the one we presented to the user)
+	[self.alternateVersion removeAndReturnError:nil];
 	
-	// do we need this
-	conflictVersions = [NSFileVersion unresolvedConflictVersionsOfItemAtURL:self.currentDocument.fileURL];
-	for (NSFileVersion* fileVersion in conflictVersions)
-	{
-		NSLog(@"%s", __PRETTY_FUNCTION__);
-		//		fileVersion.resolved = YES;
-	}
+	// and mark version as resolved
+	// TODO: logs a "tried and failed error"
+	self.alternateVersion.resolved = YES;
+	
+	// release pointers
+	self.currentDocument		= nil;
+	self.currentVersionInfo	= nil;
 	
 	// end merge
 	[self dismissViewControllerAnimated:YES completion:nil];
