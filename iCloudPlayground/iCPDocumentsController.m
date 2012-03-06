@@ -255,8 +255,6 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 // file coordination.
 - (void) removeDocument:(id)sender atIndex:(NSInteger)index;
 {
-	NSLog(@"%s", __PRETTY_FUNCTION__);
-
 	NSURL* fileURL = [[self.fileList objectAtIndex:index] URL];
 	
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void)

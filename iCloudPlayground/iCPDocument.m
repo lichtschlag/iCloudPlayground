@@ -47,14 +47,12 @@ NSString *const iCPPathExtension = @"txt";
 - (id) contentsForType:(NSString *)typeName error:(NSError **)outError
 {
 	NSData *data = [self.contents dataUsingEncoding: NSUTF8StringEncoding];
-	//	NSLog(@"%s SAVING", __PRETTY_FUNCTION__);
     return data;
 }
 
 
 - (BOOL) loadFromContents:(id)fileContents ofType:(NSString *)typeName error:(NSError **)outError
 {
-	//	NSLog(@"%s LOADING", __PRETTY_FUNCTION__);
 	self.contents = [[NSString alloc] initWithData:fileContents encoding:NSUTF8StringEncoding];  
 	return YES;
 }

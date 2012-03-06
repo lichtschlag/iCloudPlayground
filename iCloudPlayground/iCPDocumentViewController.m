@@ -112,8 +112,22 @@
 }
 
 
+- (void) viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
+	
+	if (![self isMovingToParentViewController])
+	{
+		// we are arriving from the merge controller, be sure that the doc has finished reloading the contents!
+		self.textView.text = document.contents;
+	}
+}
+
+
 - (void) viewWillDisappear:(BOOL)animated
 {
+	[super viewWillDisappear:animated];
+	
 	// figure out if changes were made
 	if (![self.textView.text isEqualToString:self.document.contents])
 	{

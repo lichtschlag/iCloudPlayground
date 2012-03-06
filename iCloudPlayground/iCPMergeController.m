@@ -128,51 +128,53 @@
 #pragma mark Interaction
 // ---------------------------------------------------------------------------------------------------------------
 
-- (IBAction) chooseAlternateVersion:(id) sender
-{
-	NSFileVersion *currentVersion		= [NSFileVersion currentVersionOfItemAtURL:self.currentDocument.fileURL];
-	
-	// overwrite the current version and let our document reload
-	[self.alternateVersion replaceItemAtURL:self.currentDocument.fileURL options:0 error:nil];
-	[self.currentDocument revertToContentsOfURL:self.currentDocument.fileURL completionHandler:nil];
-	
-	// remove the current version
-	BOOL didDelete = [currentVersion removeAndReturnError:nil];
-	// TODO: this assertion fires...., do log errer
-	NSAssert(didDelete, @"Could not remove Version");
-
-	// and mark the (now discarded) current version as resolved
-	// TODO: logs a "tried and failed error", break here and check resolved status of both versions.
-	NSLog(@"%s \"current\" is resolved:%d, \"alternate\" is resolved:%d", __PRETTY_FUNCTION__, 
-		  currentVersion.isResolved, alternateVersion.isResolved);
-
-	currentVersion.resolved = YES;
-	//	self.alternateVersion.resolved = YES;
-
-	// release pointers
-	self.currentDocument		= nil;
-	self.currentVersionInfo	= nil;
-
-	// end merge dialog
-	[self dismissViewControllerAnimated:YES completion:nil];
-}
-
-
 - (IBAction) chooseCurrentVersion:(id) sender
 {
 	// remove the alternate version (but only the one we presented to the user)
 	[self.alternateVersion removeAndReturnError:nil];
 	
 	// and mark version as resolved
-	// TODO: logs a "tried and failed error"
-	self.alternateVersion.resolved = YES;
+	// It seems that this step is unneccessary, because resoled is already YES, but the apple doc suggests it.
+	NSArray* conflictVersions = [NSFileVersion unresolvedConflictVersionsOfItemAtURL:self.currentDocument.fileURL];
+	if ([conflictVersions containsObject:self.alternateVersion])
+		self.alternateVersion.resolved = YES;
 	
 	// release pointers
 	self.currentDocument		= nil;
-	self.currentVersionInfo	= nil;
+	self.alternateVersion		= nil;
 	
 	// end merge
-	[self dismissViewControllerAnimated:YES completion:nil];
+	[self.navigationController popViewControllerAnimated:YES];
+}
+
+
+- (IBAction) chooseAlternateVersion:(id) sender
+{		
+	// NOTE: the code below discards ALL other versions, not just the current one.
+	// calls to [currentVersion removeAndReturnError:&outError]; always failed, so did not figure out how to delete
+	// just this one version. The code below is from Apple's documentation.
+
+	[self.alternateVersion replaceItemAtURL:self.currentDocument.fileURL options:0 error:nil];
+	[NSFileVersion removeOtherVersionsOfItemAtURL:self.currentDocument.fileURL error:nil];
+	[self.currentDocument revertToContentsOfURL:self.currentDocument.fileURL completionHandler:^(BOOL success) 
+	{
+		// wait for the reload to finish, because we want to update the text field as soon as we return
+		
+		NSArray* conflictVersions = [NSFileVersion unresolvedConflictVersionsOfItemAtURL:self.currentDocument.fileURL];
+		for (NSFileVersion* fileVersion in conflictVersions) 
+		{
+			fileVersion.resolved = YES;
+		}
+		
+		
+		// release pointers
+		self.currentDocument		= nil;
+		self.alternateVersion		= nil;
+		
+		// end merge dialog
+		[self.navigationController popViewControllerAnimated:YES];
+
+	}];
 }
 
 
