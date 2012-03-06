@@ -164,7 +164,7 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 		NSFileVersion *selectedFile = [self.fileList objectAtIndex:indexPath.row];
 		iCPDocument *selectedDocument = [[iCPDocument alloc] initWithFileURL:selectedFile.URL];
 		
-		[[segue destinationViewController] setDocument:selectedDocument];
+		[(iCPDocumentViewController *)[segue destinationViewController] setDocument:selectedDocument];
     }
 }
 

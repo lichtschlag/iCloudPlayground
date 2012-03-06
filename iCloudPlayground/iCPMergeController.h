@@ -14,9 +14,14 @@
 @interface iCPMergeController : UIViewController
 // ===============================================================================================================
 
-@property (retain) iCPDocument *document;
-@property (weak, nonatomic) IBOutlet UITextView *textField;
-@property (weak, nonatomic) IBOutlet UITextView *alternateTextField;
+@property (retain) iCPDocument *currentDocument;
+@property (weak, nonatomic) IBOutlet UITextView *currentContents;
+@property (weak, nonatomic) IBOutlet UITextView *alternateContents;
+@property (weak, nonatomic) IBOutlet UILabel *currentVersionInfo;
+@property (weak, nonatomic) IBOutlet UILabel *alternateVersionInfo;
+
+- (IBAction) chooseAlternateVersion:(id) sender;
+- (IBAction) chooseCurrentVersion:(id) sender;
 
 
 @end

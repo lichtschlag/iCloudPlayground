@@ -8,6 +8,8 @@
 
 #import "iCPDocumentViewController.h"
 #import "iCPDocument.h"
+#import "iCPMergeController.h"
+
 #include <QuartzCore/CALayer.h>
 #include <Twitter/TWTweetComposeViewController.h>
 
@@ -272,9 +274,10 @@
 	// the merge is performed on our document
 	if ([[segue identifier] isEqualToString:@"mergeDocumentSegue"])
 	{
-		[[segue destinationViewController] setDocument:self.document];
+		[(iCPMergeController *)[segue destinationViewController] setCurrentDocument:self.document];
     }
 }
+
 
 // ---------------------------------------------------------------------------------------------------------------
 #pragma mark -

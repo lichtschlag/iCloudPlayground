@@ -323,35 +323,8 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="▼ In the last merge we chose this version ▼" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="4" minimumFontSize="10" id="DAH-gi-zVQ">
-                                <rect key="frame" x="10" y="2" width="300" height="27"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                                <color key="shadowColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
-                                <size key="shadowOffset" width="0.0" height="1"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="▲ And this is the discarded version ▲" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="4" minimumFontSize="10" id="3Ek-zJ-pWS">
-                                <rect key="frame" x="10" y="337" width="300" height="27"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                                <color key="shadowColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
-                                <size key="shadowOffset" width="0.0" height="1"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Tap the version to keep" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="4" minimumFontSize="10" id="WzU-xh-hpK">
-                                <rect key="frame" x="65" y="170" width="190" height="23"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <color key="textColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                                <color key="shadowColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
-                                <size key="shadowOffset" width="0.0" height="1"/>
-                            </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" id="PJg-Pz-ndc">
-                                <rect key="frame" x="10" y="33" width="300" height="120"/>
+                                <rect key="frame" x="8" y="27" width="304" height="100"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </string>
@@ -361,8 +334,41 @@
                                     <outlet property="delegate" destination="eOx-b5-mfv" id="ZHm-gi-RoB"/>
                                 </connections>
                             </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="VrZ-d3-vTu">
+                                <rect key="frame" x="195" y="135" width="117" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                                <state key="normal" title="Confirm top">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="chooseCurrentVersion:" destination="V0k-El-h3U" eventType="touchUpInside" id="yzM-be-Zpm"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Saved by ..." lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="hoO-NK-aZ9">
+                                <rect key="frame" x="10" y="320" width="177" height="35"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <size key="shadowOffset" width="0.0" height="1"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="And this is the version that was discarded" lineBreakMode="wordWrap" numberOfLines="4" minimumFontSize="10" id="3Ek-zJ-pWS">
+                                <rect key="frame" x="10" y="186" width="300" height="25"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                                <size key="shadowOffset" width="0.0" height="1"/>
+                            </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" id="Y7S-Qs-zTf">
-                                <rect key="frame" x="10" y="216" width="300" height="120"/>
+                                <rect key="frame" x="8" y="212" width="304" height="100"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </string>
@@ -372,13 +378,48 @@
                                     <outlet property="delegate" destination="eOx-b5-mfv" id="L1T-Bo-oAw"/>
                                 </connections>
                             </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="NVx-39-NFb">
+                                <rect key="frame" x="195" y="320" width="117" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                                <state key="normal" title="Choose bottom">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="chooseAlternateVersion:" destination="V0k-El-h3U" eventType="touchUpInside" id="ydb-cy-HcF"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Saved by ..." lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="9Nm-Gv-3PN">
+                                <rect key="frame" x="10" y="135" width="177" height="35"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <size key="shadowOffset" width="0.0" height="1"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="In the last merge iCloud chose this version" lineBreakMode="wordWrap" numberOfLines="4" minimumFontSize="10" id="DAH-gi-zVQ">
+                                <rect key="frame" x="10" y="5" width="300" height="21"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                                <size key="shadowOffset" width="0.0" height="1"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" title="Conflict Resolution" id="LIa-mQ-uKh"/>
                     <connections>
-                        <outlet property="alternateTextField" destination="Y7S-Qs-zTf" id="gzr-jb-aLW"/>
-                        <outlet property="textField" destination="PJg-Pz-ndc" id="hqz-NE-zJg"/>
+                        <outlet property="alternateContents" destination="Y7S-Qs-zTf" id="rOL-BW-ZrH"/>
+                        <outlet property="alternateVersionInfo" destination="hoO-NK-aZ9" id="gRP-kT-o9z"/>
+                        <outlet property="currentContents" destination="PJg-Pz-ndc" id="Fkk-t9-9aa"/>
+                        <outlet property="currentVersionInfo" destination="9Nm-Gv-3PN" id="8iZ-3P-6PK"/>
                     </connections>
                 </viewController>
             </objects>
@@ -424,45 +465,6 @@
         <image name="first" width="16" height="16"/>
         <image name="second" width="16" height="16"/>
     </resources>
-    <classes>
-        <class className="iCPDocumentViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/iCPDocumentViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="doneButtonPressed:"/>
-                <relationship kind="action" name="shareButtonPressed:"/>
-                <relationship kind="outlet" name="doneButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="mergeButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="openButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="progressText" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="progressView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="statusText" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="textView" candidateClass="UITextView"/>
-            </relationships>
-        </class>
-        <class className="iCPDocumentsController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/iCPDocumentsController.h"/>
-            <relationships>
-                <relationship kind="action" name="addDocument:"/>
-                <relationship kind="outlet" name="syncLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="iCPFirstViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/iCPFirstViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="correctionToggle" candidateClass="UISwitch"/>
-                <relationship kind="outlet" name="examToggle" candidateClass="UISwitch"/>
-                <relationship kind="outlet" name="janToggle" candidateClass="UISwitch"/>
-                <relationship kind="outlet" name="syncLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="iCPMergeController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/iCPMergeController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="chosenText" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="discardedText" candidateClass="UITextView"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
