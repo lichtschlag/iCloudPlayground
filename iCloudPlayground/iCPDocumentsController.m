@@ -43,9 +43,9 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 
 - (void) viewDidLoad
 {
-    [super viewDidLoad];
-    
-    [self checkCloudAvailability];
+	[super viewDidLoad];
+	
+	[self checkCloudAvailability];
 	
 	// no documents known yet
 	self.fileList = [NSMutableArray array];
@@ -63,11 +63,11 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 
 
 - (void) viewDidUnload
-{    
-    [super viewDidUnload];
+{
+	[super viewDidUnload];
 	
-    [self.query stopQuery];
-    self.query = nil;
+	[self.query stopQuery];
+	self.query = nil;
 	self.previousQueryResults = [NSMutableArray array];
 	self.fileList = [NSMutableArray array];
 	[self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
@@ -80,15 +80,15 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 
 - (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) 
-    {
-        // on iPhone, only allow normal vertical orientation
-        return (interfaceOrientation == UIInterfaceOrientationPortrait);
-    } 
-    else 
-    {
-        return YES;
-    }
+	if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) 
+	{
+		// on iPhone, only allow normal vertical orientation
+		return (interfaceOrientation == UIInterfaceOrientationPortrait);
+	} 
+	else 
+	{
+		return YES;
+	}
 }
 
 
@@ -96,6 +96,7 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 {
 	[super viewWillAppear:animated];
 }
+
 
 // ---------------------------------------------------------------------------------------------------------------
 #pragma mark -
@@ -111,47 +112,47 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of files OR one (to show a hint that no files exist).
-    return MAX(1, [self.fileList count]);
+	// Return the number of files OR one (to show a hint that no files exist).
+	return MAX(1, [self.fileList count]);
 }
 
 
 - (BOOL) tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Return NO if it is just the helper text. It cannot be deleted.
-    if ([self.fileList count] == 0)
-    {
-        return NO;
-    }
-    else
-    {
-        return YES;
-    }
+	// Return NO if it is just the helper text. It cannot be deleted.
+	if ([self.fileList count] == 0)
+	{
+		return NO;
+	}
+	else
+	{
+		return YES;
+	}
 }
 
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *cellIdentifier;
-    UITableViewCell *cell;
+	NSString *cellIdentifier;
+	UITableViewCell *cell;
 	// dequeueReusableCellWithIdentifier: will not fail, since prototypes are in the storyboard
-    
-    if ([self.fileList count] == 0)
-    {
+	
+	if ([self.fileList count] == 0)
+	{
 		// show a hint that the list in empty
-        cellIdentifier = iCPNoDocumentsCellIdentifier;
-        cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-        NSAssert(cell != nil, @"Failed to load cell from nib.");
-    }
-    else
-    {
-        cellIdentifier = iCPDocumentCellIdentifier;
-        cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-        NSAssert(cell != nil, @"Failed to load cell from nib.");
-        
-        // Configure the cell...
+		cellIdentifier = iCPNoDocumentsCellIdentifier;
+		cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+		NSAssert(cell != nil, @"Failed to load cell from nib.");
+	}
+	else
+	{
+		cellIdentifier = iCPDocumentCellIdentifier;
+		cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+		NSAssert(cell != nil, @"Failed to load cell from nib.");
+		
+		// Configure the cell...
 		NSFileVersion *file = [self.fileList objectAtIndex:indexPath.row];
-        cell.textLabel.text = [file localizedName];
+		cell.textLabel.text = [file localizedName];
 		
 		// The "conflict" property of NSFileVersion is false for the selected merged version, which is somehat unintuitively
 		// It is only true if the merge is still unresolved (we should never notie this) or our object is the discarded one.
@@ -183,19 +184,19 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 		iCPDocument *selectedDocument = [[iCPDocument alloc] initWithFileURL:selectedFile.URL];
 		
 		[(iCPDocumentViewController *)[segue destinationViewController] setDocument:selectedDocument];
-    }
+	}
 }
 
 
 - (void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // We only do deletion via swipe.
-    NSAssert(editingStyle == UITableViewCellEditingStyleDelete, @"Unexpected editing.");
+	// We only do deletion via swipe.
+	NSAssert(editingStyle == UITableViewCellEditingStyleDelete, @"Unexpected editing.");
 
-    // Delete the row from the data
-    NSAssert([self.fileList count] != 0, @"Deletion with no items in the model.");
+	// Delete the row from the data
+	NSAssert([self.fileList count] != 0, @"Deletion with no items in the model.");
 	
-    [self removeDocument:self atIndex:indexPath.row];
+	[self removeDocument:self atIndex:indexPath.row];
 }
 
 
@@ -216,14 +217,14 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 //	made in the completion handler of the saveToURL:forSaveOperation:completionHandler: method.) See “Moving 
 //	Documents to and from iCloud Storage” for further information.
 //
-//  When storing documents in iCloud, place them in the Documents subdirectory whenever possible. Documents inside
-//  a Documents directory can be deleted individually by the user to free up space. However, everything outside 
-//  that directory is treated as data and must be deleted all at once.
+//	When storing documents in iCloud, place them in the Documents subdirectory whenever possible. Documents inside
+//	a Documents directory can be deleted individually by the user to free up space. However, everything outside 
+//	that directory is treated as data and must be deleted all at once.
 //
 - (IBAction) addDocument:(id)sender
 {
-    // invent a name for the new file
-    static int counter = 2;
+	// invent a name for the new file
+	static int counter = 2;
 	static NSString *previousDateString = @"";
 	NSString *dateString = [NSDateFormatter localizedStringFromDate:[NSDate date]
 														  dateStyle:NSDateFormatterShortStyle
@@ -239,20 +240,20 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 		counter = 2;
 	}
 	previousDateString = dateString;
-    aFileName = [aFileName stringByAppendingPathExtension:iCPPathExtension];
-    
-    // get the URL to save the new file to
-    NSURL *folderURL = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil];
-    folderURL = [folderURL URLByAppendingPathComponent:@"Documents"];
-    NSURL *fileURL = [folderURL URLByAppendingPathComponent:aFileName];
-    
-    // initialize a document with that path
-    iCPDocument *newDocument = [[iCPDocument alloc] initWithFileURL:fileURL];
+	aFileName = [aFileName stringByAppendingPathExtension:iCPPathExtension];
+	
+	// get the URL to save the new file to
+	NSURL *folderURL = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil];
+	folderURL = [folderURL URLByAppendingPathComponent:@"Documents"];
+	NSURL *fileURL = [folderURL URLByAppendingPathComponent:aFileName];
+	
+	// initialize a document with that path
+	iCPDocument *newDocument = [[iCPDocument alloc] initWithFileURL:fileURL];
 
-    // save the document immediately
-    [newDocument saveToURL:newDocument.fileURL
-          forSaveOperation:UIDocumentSaveForCreating
-         completionHandler:^(BOOL success)
+	// save the document immediately
+	[newDocument saveToURL:newDocument.fileURL
+		  forSaveOperation:UIDocumentSaveForCreating
+		 completionHandler:^(BOOL success)
 	 {
 		 if (success)
 		 {
@@ -266,6 +267,7 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 	 }];
 }
 
+
 // When you delete a document from storage, your code should approximate what UIDocument does for reading and 
 // writing operations. It should perform the deletion asynchronously on a background queue, and it should use 
 // file coordination.
@@ -273,10 +275,10 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 {
 	NSURL* fileURL = [[self.fileList objectAtIndex:index] URL];
 	
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void)
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void)
 	{
-        NSFileCoordinator* fileCoordinator = [[NSFileCoordinator alloc] initWithFilePresenter:nil];
-        [fileCoordinator coordinateWritingItemAtURL:fileURL
+		NSFileCoordinator* fileCoordinator = [[NSFileCoordinator alloc] initWithFilePresenter:nil];
+		[fileCoordinator coordinateWritingItemAtURL:fileURL
 											options:NSFileCoordinatorWritingForDeleting
 											  error:nil
 										 byAccessor:^(NSURL* writingURL)
@@ -284,7 +286,7 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 			 NSFileManager* fileManager = [[NSFileManager alloc] init];
 			 [fileManager removeItemAtURL:writingURL error:nil];
 		 }];
-    });
+	});
 }
 
 
@@ -295,36 +297,36 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 
 - (void) checkCloudAvailability;
 {
-    [syncLabel setText:@"Checking iCloud availablity…"];
-    NSURL *returnedURL = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil];
-    
-    if (returnedURL)
-    {
-        [syncLabel setText:@"iCloud is available"];
-    }
-    else
-    {
-        [syncLabel setText:@"iCloud not available. ☹"];
-    }
+	[syncLabel setText:@"Checking iCloud availablity…"];
+	NSURL *returnedURL = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil];
+	
+	if (returnedURL)
+	{
+		[syncLabel setText:@"iCloud is available"];
+	}
+	else
+	{
+		[syncLabel setText:@"iCloud not available. ☹"];
+	}
 }
 
 
 - (void) enumerateCloudDocuments;
-{    
-    self.query = [[NSMetadataQuery alloc] init];
-    [query setSearchScopes:[NSArray arrayWithObjects:NSMetadataQueryUbiquitousDocumentsScope, nil]];
-    NSString* predicate = [NSString stringWithFormat:@"%%K like '*.%@'", iCPPathExtension];
-    [query setPredicate:[NSPredicate predicateWithFormat:predicate, NSMetadataItemFSNameKey]];
+{
+	self.query = [[NSMetadataQuery alloc] init];
+	[query setSearchScopes:[NSArray arrayWithObjects:NSMetadataQueryUbiquitousDocumentsScope, nil]];
+	NSString* predicate = [NSString stringWithFormat:@"%%K like '*.%@'", iCPPathExtension];
+	[query setPredicate:[NSPredicate predicateWithFormat:predicate, NSMetadataItemFSNameKey]];
 
-    // pull a list of all the documents in the cloud
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(fileListReceived)
-                                                 name:NSMetadataQueryDidFinishGatheringNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(fileListReceived)
-                                                 name:NSMetadataQueryDidUpdateNotification object:nil];
+	// pull a list of all the documents in the cloud
+	[[NSNotificationCenter defaultCenter] addObserver:self 
+											 selector:@selector(fileListReceived)
+												 name:NSMetadataQueryDidFinishGatheringNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self 
+											 selector:@selector(fileListReceived)
+												 name:NSMetadataQueryDidUpdateNotification object:nil];
 
-    [self.query startQuery];
+	[self.query startQuery];
 }
 
 

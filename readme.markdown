@@ -60,7 +60,7 @@ iCloud allows two kinds of syncing:
 		  both previous conflicts.
 		* This means that for large documents with many merge conflicts, the programmer has to take 
 		  care to resolve/discard the conflicts, so that little space is wasted.
-		* Browsing to the file location (~/Library/MobileDocuments/AppIdentifier/) on a sychronised
+		* Browsing to the file location (~/Library/MobileDocuments/{AppIdentifier}/) on a sychronised
 		  Mac OS will only reveal merged versions. 
 	* In the iOS settings app and the iCloud pref pane on Lion, users can see space usage for the 
 	  app.

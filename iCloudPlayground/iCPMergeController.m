@@ -166,14 +166,12 @@
 			fileVersion.resolved = YES;
 		}
 		
-		
 		// release pointers
 		self.currentDocument		= nil;
 		self.alternateVersion		= nil;
 		
 		// end merge dialog
 		[self.navigationController popViewControllerAnimated:YES];
-
 	}];
 }
 

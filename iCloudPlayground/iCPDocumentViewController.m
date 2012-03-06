@@ -47,7 +47,7 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void) viewDidLoad
 {
-    [super viewDidLoad];
+	[super viewDidLoad];
 	
 	// visual style of the text layer
 	[self.textView.layer setCornerRadius:10.0];
@@ -83,8 +83,8 @@
 	
 	// register for state changes
 	[[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(documentStateChanged:)
-                                                 name:UIDocumentStateChangedNotification
+											 selector:@selector(documentStateChanged:)
+												 name:UIDocumentStateChangedNotification
 											   object:nil];
 	
 	// Change the title of the back button to us
@@ -106,9 +106,9 @@
 	[self setStatusText:nil];
 	[self setMergeButton:nil];
 	
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
-    [super viewDidUnload];
+	[super viewDidUnload];
 }
 
 
@@ -150,7 +150,7 @@
 
 - (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+	return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 
@@ -289,7 +289,7 @@
 	if ([[segue identifier] isEqualToString:@"mergeDocumentSegue"])
 	{
 		[(iCPMergeController *)[segue destinationViewController] setCurrentDocument:self.document];
-    }
+	}
 }
 
 

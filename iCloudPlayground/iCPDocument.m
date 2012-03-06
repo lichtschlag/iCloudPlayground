@@ -24,12 +24,12 @@ NSString *const iCPPathExtension = @"txt";
 
 - (id) initWithFileURL:(NSURL *)url
 {
-    self = [super initWithFileURL:url];
-    if (self) 
+	self = [super initWithFileURL:url];
+	if (self) 
 	{
 		self.contents = @"I am simply a text.";
-    }
-    return self;
+	}
+	return self;
 }
 
 
@@ -47,7 +47,7 @@ NSString *const iCPPathExtension = @"txt";
 - (id) contentsForType:(NSString *)typeName error:(NSError **)outError
 {
 	NSData *data = [self.contents dataUsingEncoding: NSUTF8StringEncoding];
-    return data;
+	return data;
 }
 
 
@@ -60,7 +60,7 @@ NSString *const iCPPathExtension = @"txt";
 
 - (void) handleError:(NSError *)error userInteractionPermitted:(BOOL)userInteractionPermitted
 {
-    NSLog(@"%s %@", __PRETTY_FUNCTION__, error);
+	NSLog(@"%s %@", __PRETTY_FUNCTION__, error);
 }
 
 
