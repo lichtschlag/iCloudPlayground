@@ -45,13 +45,18 @@ iCloud allows two kinds of syncing:
 	* Sharing the document to other apps on the device with UIDocumentInteractionController is 
 	  possible directly out of the iCloud container.
 	* If the contents of the file are changed at the same time on two devices and then synced, 
-	  iCloud picks the newest one and discards all changes from the other.
+	  iCloud picks the newest one and marks the other version as in conflict. Opening the file
+	  shows the wining contents.
 		* UIDocument notifies this by reporting a merge conflict. It has to open the document once 
 		  to notice this.
 		* However, the merged document can directly be used again, the merge results in a working
 		  document.
 		* Further changes to the winning document do not discard the merge conflict, so in theory 
-		  one can still go back and pick the discarded changes.
+		  one can still go back and pick the discarded changes from multiple edits back.
+		* In a series of merge conflicts all discarded versions remain available. Say file contents
+		  "Apple" and "Banana" conflicted and "Apple" won. Then new edits in "Apple" with "Strawberry"
+		  conflicted again and "Apple" was again chosen as the winner. iOS then keeps and reports
+		  both previous conflicts.
 		* This means that for large documents with many merge conflicts, the programmer has to take 
 		  care to resolve/discard the conflicts, so that little space is wasted.
 		* Browsing to the file location (~/Library/MobileDocuments/AppIdentifier/) on a sychronised

@@ -16,6 +16,7 @@
 @property (retain) NSMetadataQuery *query;
 @property (retain) NSMutableArray *fileList;
 @property (retain) NSMutableArray *previousQueryResults;
+@property (retain) NSTimer *updateTimer;
 
 - (IBAction) addDocument:(id)sender;
 - (void) removeDocument:(id)sender atIndex:(NSInteger)index;

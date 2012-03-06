@@ -17,6 +17,7 @@
 - (void) checkCloudAvailability;
 - (void) enumerateCloudDocuments;
 - (void) fileListReceived;
+- (void) updateTimerFired:(NSTimer *)timer;
 
 @end
 
@@ -29,6 +30,7 @@
 @synthesize query;
 @synthesize fileList;
 @synthesize previousQueryResults;
+@synthesize updateTimer;
 
 static NSString *iCPDocumentCellIdentifier      = @"iCPDocumentCellIdentifier";
 static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier";
@@ -49,7 +51,14 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 	self.fileList = [NSMutableArray array];
 	self.previousQueryResults = [NSMutableArray array];
 	
-    [self enumerateCloudDocuments];
+	[self enumerateCloudDocuments];
+	
+	// add a timer that updates out for changes in the file metadata
+	self.updateTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 
+														target:self 
+													  selector:@selector(updateTimerFired:) 
+													  userInfo:nil 
+													   repeats:YES];
 }
 
 
@@ -62,6 +71,10 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 	self.previousQueryResults = [NSMutableArray array];
 	self.fileList = [NSMutableArray array];
 	[self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+	
+	// remove timer
+	[self.updateTimer invalidate];
+	self.updateTimer = nil;
 }
 
 
@@ -185,6 +198,12 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
     NSAssert([self.fileList count] != 0, @"Deletion with no items in the model.");
 	
     [self removeDocument:self atIndex:indexPath.row];
+}
+
+
+- (void) updateTimerFired:(NSTimer *)timer;
+{
+	[self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 
