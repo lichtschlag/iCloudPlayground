@@ -38,8 +38,9 @@ iCloud allows two kinds of syncing:
 	  within seconds.
 	* Each document can be made "public" by asking the NSFilemanager for a cryptic URL on
 	  [www.icloud.com](http://www.icloud.com/ "iCloud").
-		* The link is built to be hard to guess and no password is required to access it. 
+		* The link is built to be hard to guess and no password is required to access it.
 		* The caller can specify a date until the document is accessible under this URL.
+		* Changing the document on device will NOT update the shared version.
 		* If it is deleted locally, however, it also is no longer shared online.
 		* The call to make the document public can take a few seconds.
 	* Sharing the document to other apps on the device with UIDocumentInteractionController is 
@@ -75,5 +76,4 @@ Possible expansions
 
 * 	Display download status in file list.
 * 	With a CoreData backed document, iCloud can supposedly do more sophisticated merging.
-* 	One could display a merge UI to the user to pick one of the two possible files.
 

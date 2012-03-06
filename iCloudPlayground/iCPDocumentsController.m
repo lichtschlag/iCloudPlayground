@@ -95,8 +95,6 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 - (void) viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
-	
-	// TODO: we might have to reload the cell merge status, if we return from a document view
 }
 
 // ---------------------------------------------------------------------------------------------------------------
@@ -258,7 +256,6 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 	 {
 		 if (success)
 		 {
-			 // TODO: defer creating the document in iCloud storage
 			 // Saving implicitly opens the file. An open document will restore the its (remotely) deleted file representation.
 			 [newDocument closeWithCompletionHandler:nil];
 		 }
