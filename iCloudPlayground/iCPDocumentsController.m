@@ -226,10 +226,14 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 	// invent a name for the new file
 	static int counter = 2;
 	static NSString *previousDateString = @"";
-	NSString *dateString = [NSDateFormatter localizedStringFromDate:[NSDate date]
-														  dateStyle:NSDateFormatterShortStyle
-														  timeStyle:NSDateFormatterMediumStyle];
-	NSString* aFileName;
+
+	// format the date manually to avoid illegal or abigious filenames (i.e., with / or :)
+	// As an alternative one could use GUIDs
+	NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+	[dateFormat setDateFormat:@"MM.dd.yy H-m"];
+	NSString *dateString = [dateFormat stringFromDate:[NSDate date]];
+	NSString *aFileName = @"";
+
 	if ([dateString isEqualToString:previousDateString])
 	{
 		aFileName = [NSString stringWithFormat:@"%@ (%d)", dateString, counter++];
