@@ -13,6 +13,7 @@
 // ===============================================================================================================
 
 @property (weak, nonatomic) IBOutlet UILabel    *syncLabel;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *plusButton;
 @property (retain) NSMetadataQuery *query;
 @property (retain) NSMutableArray *fileList;
 @property (retain) NSMutableArray *previousQueryResults;

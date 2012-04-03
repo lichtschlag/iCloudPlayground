@@ -31,6 +31,7 @@
 @synthesize fileList;
 @synthesize previousQueryResults;
 @synthesize updateTimer;
+@synthesize plusButton;
 
 static NSString *iCPDocumentCellIdentifier      = @"iCPDocumentCellIdentifier";
 static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier";
@@ -64,6 +65,7 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 
 - (void) viewDidUnload
 {
+	[self setPlusButton:nil];
 	[super viewDidUnload];
 	
 	[self.query stopQuery];
@@ -306,11 +308,13 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 	
 	if (returnedURL)
 	{
-		[syncLabel setText:@"iCloud is available"];
+		[self.syncLabel setText:@"iCloud is available"];
+		[self.plusButton setEnabled:YES];
 	}
 	else
 	{
-		[syncLabel setText:@"iCloud not available. ☹"];
+		[self.syncLabel setText:@"iCloud not available. ☹"];
+		[self.plusButton setEnabled:NO];
 	}
 }
 
@@ -323,7 +327,7 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 	[query setPredicate:[NSPredicate predicateWithFormat:predicate, NSMetadataItemFSNameKey]];
 
 	// pull a list of all the documents in the cloud
-	[[NSNotificationCenter defaultCenter] addObserver:self 
+	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(fileListReceived)
 												 name:NSMetadataQueryDidFinishGatheringNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self 

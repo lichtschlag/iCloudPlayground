@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2427" systemVersion="12A128p" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="4">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2429" systemVersion="12A154q" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="4">
     <dependencies>
+        <deployment defaultVersion="1296" identifier="iOS"/>
         <development defaultVersion="4200" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1420"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1421"/>
     </dependencies>
     <scenes>
         <!--ICP First View Controller - First-->
@@ -156,7 +157,7 @@
                                 </view>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
-                                    <segue destination="eOx-b5-mfv" kind="push" identifier="editDocumentSegue" id="WiG-01-TgZ"/>
+                                    <segue destination="eOx-b5-mfv" identifier="editDocumentSegue" kind="push" id="WiG-01-TgZ"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="iCPNoDocumentsCellIdentifier" id="e9X-Ft-123">
@@ -193,6 +194,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="plusButton" destination="n42-2v-2Qh" id="QP5-wn-fce"/>
                         <outlet property="syncLabel" destination="eF3-eE-RZr" id="L9n-jf-tRG"/>
                     </connections>
                 </tableViewController>
@@ -261,7 +263,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="V0k-El-h3U" kind="push" identifier="mergeDocumentSegue" id="4gy-nR-hSc"/>
+                                    <segue destination="V0k-El-h3U" identifier="mergeDocumentSegue" kind="push" id="4gy-nR-hSc"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" id="x2R-V2-Dyk" userLabel="loading progress view">
