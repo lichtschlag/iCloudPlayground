@@ -119,7 +119,7 @@ NSString *const kiCPCorrectionKey   = @"kiCPCorrectionKey";
         [self.examToggle setEnabled:YES];
         [self.correctionToggle setEnabled:YES];
         
-        // pull all keys from the store, no matter if they have changed or not.
+        // pull all keys from the store, no matter wether they have changed or not.
         [self.janToggle setOn:[[NSUbiquitousKeyValueStore defaultStore] boolForKey:kiCPJanKey]];
         [self.examToggle setOn:[[NSUbiquitousKeyValueStore defaultStore] boolForKey:kiCPExamKey]];
         [self.correctionToggle setOn:[[NSUbiquitousKeyValueStore defaultStore] boolForKey:kiCPCorrectionKey]];
