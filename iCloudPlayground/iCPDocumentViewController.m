@@ -52,10 +52,15 @@
 	// visual style of the text layer
 	[self.textView.layer setCornerRadius:10.0];
 	UIColor *gray = [UIColor colorWithWhite:0.607 alpha:1.000];
-	[self.textView.layer setBorderColor:[gray CGColor]];
-	[self.textView.layer setBorderWidth:1.0];
+//	[self.textView.layer setBorderColor:[gray CGColor]];
+//	[self.textView.layer setBorderWidth:1.0];
 	
 	[self showProgressScreenWithLabel:@"Loading document…"];
+
+	// visual style fo the buttons
+	[self.mergeButton.layer setCornerRadius:10.0];
+	[self.shareButton.layer setCornerRadius:10.0];
+	[self.openButton.layer setCornerRadius:10.0];
 	
 	// hide the done button before the user starts editing
 	self.navigationItem.rightBarButtonItem = nil;
