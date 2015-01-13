@@ -90,7 +90,7 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(documentStateChanged:)
 												 name:UIDocumentStateChangedNotification
-											   object:nil];
+											   object:document];
 	
 	// Change the title of the back button to us
 	self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Document"
@@ -175,6 +175,7 @@
 {
 	// stop the text editing
 	[self.textView endEditing:YES];
+	self.document.contents = self.textView.text;
 	[self.document updateChangeCount:UIDocumentChangeDone];
 	
 	// hide the done button
@@ -285,6 +286,8 @@
 	{
 		[self.mergeButton removeFromSuperview];
 	}
+	
+	self.textView.text = self.document.contents;
 }
 
 
