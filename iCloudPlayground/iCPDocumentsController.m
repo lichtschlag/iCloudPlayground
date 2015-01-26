@@ -153,14 +153,14 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 		NSAssert(cell != nil, @"Failed to load cell from nib.");
 		
 		// Configure the cell...
-		NSFileVersion *file = [self.fileList objectAtIndex:indexPath.row];
-		cell.textLabel.text = [file localizedName];
+		NSMetadataItem *metadataItem = [self.fileList objectAtIndex:indexPath.row];
+		cell.textLabel.text = [metadataItem valueForAttribute:NSMetadataItemDisplayNameKey];
 		
 		// The "conflict" property of NSFileVersion is false for the selected merged version, which is somehat unintuitively
 		// It is only true if the merge is still unresolved (we should never notie this) or our object is the discarded one.
 		// Instead we use the following to detect merge conflicts:
-		NSArray *mergeTest = [NSFileVersion otherVersionsOfItemAtURL:file.URL];
-		if ([mergeTest count] != 0)
+		NSNumber *test = [metadataItem valueForAttribute:NSMetadataUbiquitousItemHasUnresolvedConflictsKey];
+		if ([test boolValue] == YES)
 		{
 			cell.detailTextLabel.text = @"Conflict while merging";
 			cell.detailTextLabel.textColor = [UIColor redColor];
@@ -182,8 +182,8 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 	if ([[segue identifier] isEqualToString:@"editDocumentSegue"])
 	{
 		NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-		NSFileVersion *selectedFile = [self.fileList objectAtIndex:indexPath.row];
-		iCPDocument *selectedDocument = [[iCPDocument alloc] initWithFileURL:selectedFile.URL];
+		NSMetadataItem *selectedFile = [self.fileList objectAtIndex:indexPath.row];
+		iCPDocument *selectedDocument = [[iCPDocument alloc] initWithFileURL:[selectedFile valueForAttribute:NSMetadataItemURLKey]];
 		
 		[(iCPDocumentViewController *)[segue destinationViewController] setDocument:selectedDocument];
 	}
@@ -279,7 +279,7 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 // file coordination.
 - (void) removeDocument:(id)sender atIndex:(NSInteger)index;
 {
-	NSURL* fileURL = [[self.fileList objectAtIndex:index] URL];
+	NSURL* fileURL = [[self.fileList objectAtIndex:index] valueForAttribute:NSMetadataItemURLKey];
 	
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void)
 	{
@@ -323,8 +323,8 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 {
 	self.query = [[NSMetadataQuery alloc] init];
 	[query setSearchScopes:[NSArray arrayWithObjects:NSMetadataQueryUbiquitousDocumentsScope, nil]];
-	NSString* predicate = [NSString stringWithFormat:@"%%K like '*.%@'", iCPPathExtension];
-	[query setPredicate:[NSPredicate predicateWithFormat:predicate, NSMetadataItemFSNameKey]];
+	NSString* predicate = [NSString stringWithFormat:@"kMDItemFSName like '*.%@'", iCPPathExtension];
+	[query setPredicate:[NSPredicate predicateWithFormat:predicate]];
 
 	// pull a list of all the documents in the cloud
 	[[NSNotificationCenter defaultCenter] addObserver:self
@@ -342,9 +342,13 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 {
 	// get URLs out of query results
 	NSMutableArray* queryResultURLs = [NSMutableArray array];
-	for (NSMetadataItem *aResult in [self.query results]) 
+	NSMutableDictionary *metadataItemForURL = [NSMutableDictionary dictionary];
+	for (NSInteger i = 0; i < self.query.resultCount; i++)
 	{
-		[queryResultURLs addObject:[aResult valueForAttribute:NSMetadataItemURLKey]];
+		NSMetadataItem *metadataItem = [self.query resultAtIndex:i];
+		NSURL *url = [metadataItem valueForAttribute:NSMetadataItemURLKey];
+		[queryResultURLs addObject:url];
+		[metadataItemForURL setObject:metadataItem forKey:url];
 	}
 	
 	// calculate diff between arrays to find which are new, which are to be removed
@@ -356,8 +360,8 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 	// remove tableview entries (file is already gone, we are just updating the view)
 	for (int i = 0; i < [self.fileList count]; ) 
 	{
-		NSFileVersion *aFile = [self.fileList objectAtIndex:i];
-		if ([removedURLs containsObject:aFile.URL])
+		NSMetadataItem *aFile = [self.fileList objectAtIndex:i];
+		if ([removedURLs containsObject:[aFile valueForAttribute:NSMetadataItemURLKey]])
 		{
 			[self.fileList removeObjectAtIndex:i];			
 			// Make a nice animation or swap to the cell with the hint text
@@ -381,16 +385,17 @@ static NSString *iCPNoDocumentsCellIdentifier   = @"iCPNoDocumentsCellIdentifier
 	// add tableview entries (file exists, but we have to create a new NSFileVersion to track it)
 	for (NSURL *aNewURL in newURLs)
 	{
-		[self.fileList addObject:[NSFileVersion currentVersionOfItemAtURL:aNewURL]];
+		
+		[self.fileList addObject:[metadataItemForURL objectForKey:aNewURL]];
 		
 		if ([self.fileList count] != 1)
 		{
-			[self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:([self.fileList count] -1) inSection:0]] 
+			[self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:([self.fileList count] -1) inSection:0]]
 								  withRowAnimation:UITableViewRowAnimationLeft];
 		}
 		else
 		{
-			[self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:([self.fileList count] -1) inSection:0]] 
+			[self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:([self.fileList count] -1) inSection:0]]
 								  withRowAnimation:UITableViewRowAnimationRight];
 		}
 	}
